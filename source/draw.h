@@ -56,6 +56,12 @@ extern float xTrans, yTrans, zTrans;
 extern float viewMatrix[3][3];
 extern CModel3ds *ourShip;
 extern CModel3ds *theLevel;
+extern posf *camBase;
+extern posf *camRead;
+extern posf *camWrt;
+extern bool startCam;
+extern bool printTempMatrix;
 
 extern float radToDeg(float rad);
+extern void quitProgram(int returnValue);
 void drawScene();

@@ -46,6 +46,14 @@
 #define SC_HEIGHT 600
 #define SC_BPP 32
 
+#define CAM_FRAME_DELAY 100
+#define CAM_DIST -5.0
+
+typedef struct
+{
+  float pos[2][3];
+} posf;
+
 //typedef enum{false, true} bool;
 
 /*typedef struct

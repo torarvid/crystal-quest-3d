@@ -51,13 +51,44 @@ void drawScene()
   static int frame_t0 = 0;
   static int frames = 0;
   float shipScale = 0.01f;
-  float shipXAngle, shipYAngle, shipZAngle;
+  int i,j;
+  static int printMat = 19;
+  float tempMatrix[16];
 
-  if (viewMatrix[2][2] == 0)
-    shipXAngle = 90.0f;
-  else
-    shipXAngle = radToDeg(atan(viewMatrix[2][1] / viewMatrix[2][2]));
+  for(i=0;i<2;i++)
+    for(j=0;j<3;j++)
+    {
+      camWrt->pos[i][j] = viewMatrix[2-i][j] * ((i == 0) ? CAM_DIST : 1);
+    }
+
+  tempMatrix[0] = viewMatrix[0][0];
+  tempMatrix[1] = viewMatrix[1][0];
+  tempMatrix[2] = viewMatrix[2][0];
+  tempMatrix[3] = 0.0f;
+  tempMatrix[4] = viewMatrix[0][1];
+  tempMatrix[5] = viewMatrix[1][1];
+  tempMatrix[6] = viewMatrix[2][1];
+  tempMatrix[7] = 0.0f;
+  tempMatrix[8] = viewMatrix[0][2];
+  tempMatrix[9] = viewMatrix[1][2];
+  tempMatrix[10] = viewMatrix[2][2];
+  tempMatrix[11] = 0.0f;
+  tempMatrix[12] = 0.0f;
+  tempMatrix[13] = 0.0f;
+  tempMatrix[14] = 0.0f;
+  tempMatrix[15] = 1.0f;
+
+  camWrt = ((int)++camWrt % ((int)(CAM_FRAME_DELAY + camBase))) 
+    ? camWrt : camBase;
   
+  /*if (camWrt == camBase)
+  quitProgram(0);*/
+
+  if (camWrt == camBase + CAM_FRAME_DELAY - 1)
+  {
+    startCam = true;
+  }
+
   /* Try to clear the screen as fast as possible */
   glDisable( GL_DEPTH_TEST );
   glDisable( GL_DITHER );
@@ -67,27 +98,66 @@ void drawScene()
   glEnable( GL_DITHER );
   glShadeModel( GL_SMOOTH );
 
-  /* Load idendity matrix */
-  glLoadIdentity();
-
+  /*if ((++printMat % 20) == 3)
+    printf("r: %f w: %f\n", camRead->pos[1][2], camWrt->pos[1][2]);*/
   /* Rotate camera */
-  gluLookAt(viewMatrix[2][0] * -5.0f, 
+
+  /*  gluLookAt(viewMatrix[2][0] * -5.0f, 
       viewMatrix[2][1] * -5.0f,
       viewMatrix[2][2] * -5.0f,
       0.0f, 0.0f, 0.0f,
-      viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);
+      viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);*/
 
-  glRotatef(-upDownAngle, viewMatrix[0][0], viewMatrix[0][1], viewMatrix[0][2]);
-  glRotatef(-viewAngle, viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);
-  //glRotatef(-rotAngle, viewMatrix[2][0], viewMatrix[2][1], viewMatrix[2][2]);
-  glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
+  
+    
+  /*gluLookAt(camWrt->pos[0][0],
+      camWrt->pos[0][1],
+      camWrt->pos[0][2],
+      0.0f, 0.0f, 0.0f,
+      camWrt->pos[1][0],
+      camWrt->pos[1][1],
+      camWrt->pos[1][2]);*/
+  
+  /* Draw the ship */
+  glLoadMatrixf(tempMatrix);
+  glTranslatef(0.0f, 0.0f, -5.0f);
   glScalef(shipScale, shipScale, shipScale);
   ourShip->Draw();
   glScalef(1 / shipScale, 1 / shipScale, 1 / shipScale);
-  glRotatef(-180.0f, 0.0f, 1.0f, 0.0f);
-  //glRotatef(rotAngle, viewMatrix[2][0], viewMatrix[2][1], viewMatrix[2][2]);
-  glRotatef(viewAngle, viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);
-  glRotatef(upDownAngle, viewMatrix[0][0], viewMatrix[0][1], viewMatrix[0][2]);
+
+  /* Load idendity ModelView matrix */
+  glLoadIdentity();
+
+  gluLookAt(camRead->pos[0][0],
+      camRead->pos[0][1],
+      camRead->pos[0][2],
+      0.0f, 0.0f, 0.0f,
+      camRead->pos[1][0],
+      camRead->pos[1][1],
+      camRead->pos[1][2]);
+
+  if (printTempMatrix)
+  {
+    printf("| %.1f %.1f %.1f %.1f |\n",
+	tempMatrix[0], tempMatrix[1], tempMatrix[2], tempMatrix[3]);
+    printf("| %.1f %.1f %.1f %.1f |\n",
+	tempMatrix[4], tempMatrix[5], tempMatrix[6], tempMatrix[7]);
+    printf("| %.1f %.1f %.1f %.1f |\n",
+	tempMatrix[8], tempMatrix[9], tempMatrix[10], tempMatrix[11]);
+    printf("| %.1f %.1f %.1f %.1f |\n\n",
+	tempMatrix[12], tempMatrix[13], tempMatrix[14], tempMatrix[15]);
+  }
+  if (startCam)
+  {
+    camRead = ((int)++camRead % ((int)(CAM_FRAME_DELAY + camBase)))
+      ? camRead : camBase;
+  }
+
+  /* Push ModelView matrix to stack */
+  glPushMatrix();
+
+  /* Pop the ModelView matrix from stack */
+  glPopMatrix();
   
   /* Position ourselves */
   glTranslatef(xTrans, yTrans, zTrans);

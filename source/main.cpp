@@ -41,6 +41,7 @@
 
 
 #include "main.h"
+#include <stdlib.h>
 
 
 /*---------------------------------------------------------------------------*/ 
@@ -108,6 +109,12 @@ float zAxis[] = {0.0f, 0.0f, 1.0f};
 /* Mouse Sensitivity */
 float mouseSense = 40.0f;
 
+/* Camera position buffer */
+posf *camBase;
+posf *camWrt;
+posf *camRead;
+bool startCam = false;
+
 
 /*---------------------------------------------------------------------------*/ 
 
@@ -150,6 +157,7 @@ void resizeWindow(int width, int height)
 
 void quitProgram(int returnValue)
 {
+  free(camBase);
   SDL_Quit();
   exit(returnValue);
 }
@@ -163,6 +171,7 @@ void rotVector(float vector[3], float inMatrix[3][3], float angle)
   float Matrix[3][3];
   float rotMatrix[3][3];
   float x, y, z, s, c, t, sx, sy, sz, tyz, txz, txy;
+  float length[3];
 
   for(i=0;i<3;i++)
     for(j=0;j<3;j++)
@@ -224,6 +233,13 @@ void rotVector(float vector[3], float inMatrix[3][3], float angle)
   inMatrix[2][2] = Matrix[0][2] * rotMatrix[2][0] +
     		   Matrix[1][2] * rotMatrix[2][1] + 
 		   Matrix[2][2] * rotMatrix[2][2];
+  for(i=0;i<2;i++)
+    length[i] = sqrt(inMatrix[i][0] * inMatrix[i][0] + 
+      inMatrix[i][1] * inMatrix[i][1] +
+      inMatrix[i][2] * inMatrix[i][2]);
+  for(i=0;i<2;i++)
+    for(j=0;j<2;j++)
+      inMatrix[i][j] /= length[i];
 }
 
 
@@ -246,6 +262,15 @@ int main(int argc, char **argv)
   /* Struct to hold some video information*/
   const SDL_VideoInfo *vidInfo;
 
+  camBase = (posf *)malloc(CAM_FRAME_DELAY * sizeof(posf));
+  if (camBase == NULL)
+  {
+    printf("Cannot allocate memory. Quitting...\n");
+    quitProgram(1);
+  }
+  camRead = camBase;
+  camWrt = camBase;
+  
   /* Initialize the viewing matrix */
   loadIdentity(viewMatrix);
   viewMatrix[2][2] = -1.0f;

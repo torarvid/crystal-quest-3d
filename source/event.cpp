@@ -57,6 +57,8 @@ static float rm = 0.0f;
 bool regX = true;
 bool regY = false;
 
+bool printTempMatrix = false;
+
 void processKeys()
 {
   /* Rotate the viewing matrix */
@@ -83,6 +85,10 @@ void processKeys()
     printf("vx:%g\nvy:%g\nvz:%g\n\n", 
 	viewMatrix[2][0], viewMatrix[2][1], viewMatrix[2][2]);
   }
+  if (keys[SDLK_q])
+    printTempMatrix = true;
+  else
+    printTempMatrix = false;
   if (keys[SDLK_g])
     regX = false;
   else
