@@ -1,3 +1,4 @@
+#This is the makefile for Crystal Quest 3D
 CC = gcc
 target = mmp
 depends = 	init.o \
