@@ -1,6 +1,6 @@
-/*
+/*****************************************************************************\ 
  *
- * ProgName
+ * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
  * This program is free software; you can redistribute it and/or
@@ -27,18 +27,22 @@
  *
  * totto@boredom.nu
  *
- */
+\*****************************************************************************/ 
 
 
-/*
+/*****************************************************************************\ 
  *
  * This is the source file for the scenes drawing routines
  *
  * Written by Tor Arvid Lund
  *
- */
+\*****************************************************************************/ 
+
 
 #include "draw.h"
+
+
+/*---------------------------------------------------------------------------*/ 
 
 void drawScene()
 {
@@ -55,31 +59,45 @@ void drawScene()
   glEnable( GL_DITHER );
   glShadeModel( GL_SMOOTH );
 
-/* Clear The Screen And The Depth Buffer 
-   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );*/
+/* Clear The Screen And The Depth Buffer*/ 
 
   glLoadIdentity();
 
-  glRotatef(upDownAngle, 1.0f, 0.0f, 0.0f);
+  /*glRotatef(upDownAngle, vM[0][0], vM[0][1], vM[0][2]);
 
-  glRotatef(viewAngle, 0.0f, 1.0f, 0.0f);
+  glRotatef(viewAngle, vM[1][0], vM[1][1], vM[1][2]);*/
+
+  glTranslatef(xTrans, yTrans, zTrans);
 
   glCallList(triangle);
 
-  glLoadIdentity();   /* Reset The Current Modelview Matrix*/
-
-  glRotatef(upDownAngle, 1.0f, 0.0f, 0.0f);
-
-  glRotatef(viewAngle, 0.0f, 1.0f, 0.0f);
-
   glCallList(quad);
+
+  glBegin(GL_TRIANGLES);
+  glColor3f(1.0f, 1.0f, 0.0f);
+  glVertex3f(0.0f, -5.0f, -1.0f);
+  glColor3f(0.0f, 1.0f, 1.0f);
+  glVertex3f(-1.0f, -5.0f, 1.0f);
+  glColor3f(1.0f, 0.0f, 1.0f);
+  glVertex3f(1.0f, -5.0f, 1.0f);
+  glEnd();
+  
+  glBegin(GL_LINES);
+  glColor3f(1.0f, 0.0f, 0.0f);
+  glVertex3f(-1.0f, 1.0f, -6.0f);
+  glVertex3f(-1.0f + vM[0][0], 1.0f + vM[0][1], -6.0f + vM[0][2]);
+  glColor3f(0.0f, 1.0f, 0.0f);
+  glVertex3f(-1.0f, 1.0f, -6.0f);
+  glVertex3f(-1.0f + vM[1][0], 1.0f + vM[1][1], -6.0f + vM[1][2]);
+  glColor3f(0.0f, 0.0f, 1.0f);
+  glVertex3f(-1.0f, 1.0f, -6.0f);
+  glVertex3f(-1.0f + vM[2][0], 1.0f + vM[2][1], -6.0f + vM[2][2]);
+  glEnd();
 
   while((t = SDL_GetTicks())){
     if ((t - draw_t0) > (1000 / 70))
       break;
   }
-  printf("%d\n", SDL_GetTicks() - draw_t0);
-
 
   SDL_GL_SwapBuffers( );
 
@@ -87,8 +105,8 @@ void drawScene()
   t = SDL_GetTicks();
   if (t - frame_t0 >= 5000){
     float secs = (t - frame_t0) / 1000.0f;
-    printf("%d frames in %g seconds: %g fps\n", 
-	   frames, secs, frames / secs);
+/*    printf("%d frames in %g seconds: %g fps\n", 
+	   frames, secs, frames / secs);*/
     frames = 0;
     frame_t0 = t;
   }

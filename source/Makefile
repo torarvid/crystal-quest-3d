@@ -1,6 +1,7 @@
 #This is the makefile for Crystal Quest 3D
+
 CC = gcc
-target = mmp
+target = cq3d
 depends = 	init.o \
 		event.o \
 		draw.o \
@@ -8,7 +9,7 @@ depends = 	init.o \
 
 CFLAGS = -Wall -ansi
 CFLAGS_DEBUG = -g
-CFLAGS_RELEASE = -O2 -fomit-frame-pointer
+CFLAGS_RELEASE = -O3 -fomit-frame-pointer
 #LIBS = -lpthread -lnet -lpcap
 LIBS = -lGL -lGLU `sdl-config --cflags --libs`
 

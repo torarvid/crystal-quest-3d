@@ -1,6 +1,6 @@
-/*
+/*****************************************************************************\ 
  *
- * ProgName
+ * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
  * This program is free software; you can redistribute it and/or
@@ -27,16 +27,16 @@
  *
  * totto@boredom.nu
  *
- */
+\*****************************************************************************/ 
 
 
-/*
+/*****************************************************************************\ 
  *
  * This is the header file for the main function and other global stuff
  *
  * Written by Tor Arvid Lund
  *
- */
+\*****************************************************************************/ 
 
 
 #include <GL/gl.h>
@@ -44,6 +44,7 @@
 #include <SDL/SDL.h>
 #include <stdio.h>
 #include "globals.h"
+#include <math.h>
 
 
 #ifdef MMP_SOUND_ENABLED

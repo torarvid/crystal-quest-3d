@@ -1,6 +1,6 @@
-/*
+/*****************************************************************************\ 
  *
- * ProgName
+ * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
  * This program is free software; you can redistribute it and/or
@@ -27,16 +27,16 @@
  *
  * totto@boredom.nu
  *
- */
+\*****************************************************************************/ 
 
 
-/*
+/*****************************************************************************\ 
  *
  * This is the header file for the initialization routines
  *
  * Written by Tor Arvid Lund
  *
- */
+\*****************************************************************************/ 
 
 
 #include <GL/gl.h>

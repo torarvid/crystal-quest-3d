@@ -1,6 +1,6 @@
-/*
+/*****************************************************************************\ 
  *
- * ProgName
+ * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
  * This program is free software; you can redistribute it and/or
@@ -27,17 +27,19 @@
  *
  * totto@boredom.nu
  *
- */
+\*****************************************************************************/ 
 
 
-/*
+/*****************************************************************************\ 
  *
  * This is the header file describing global defines and data types
  *
  * Written by Tor Arvid Lund
  *
- */
+\*****************************************************************************/ 
 
+
+#define PI 3.141592656898
 #define MMP_SOUND_ENABLED /* Comment out this line to disable sound... */
 
 #define SC_WIDTH 800
@@ -45,3 +47,15 @@
 #define SC_BPP 32
 
 typedef enum{false, true} bool;
+
+typedef struct
+{
+  float x;
+  float y;
+  float z;
+} Vector3f;
+
+typedef struct
+{
+  Vector3f v1, v2, v3;
+} Matrix3vf;

@@ -1,6 +1,6 @@
-/*
+/*****************************************************************************\ 
  *
- * ProgName
+ * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
  * This program is free software; you can redistribute it and/or
@@ -27,35 +27,91 @@
  *
  * totto@boredom.nu
  *
- */
+\*****************************************************************************/ 
 
 
-/*
+/*****************************************************************************\ 
  *
  * This is the source file for the event polling routines
  *
  * Written by Tor Arvid Lund
  *
- */
+\*****************************************************************************/ 
 
 
 #include "event.h"
 
+
+/*---------------------------------------------------------------------------*/ 
+
+static float udm = 0.0f;
+static float ssm = 0.0f;
+bool regX = true;
+bool regY = false;
+
 void processKeys()
 {
+  Vector3f viewVector;
+  static float xAxis[] = {1.0f, 0.0f, 0.0f};
+  float yAxis[] = {0.0f, 1.0f, 0.0f};
+  
+  viewVector.y = sin(degToRad(upDownAngle));
+  viewVector.x = sin(degToRad(viewAngle)) * cos(degToRad(upDownAngle));
+  viewVector.z = cos(degToRad(viewAngle)) * cos(degToRad(upDownAngle));
+
+  /*loadIdentity(vM);*/
+
+  rotVector(xAxis, vM, xM, degToRad(udm));
+  rotVector(yAxis, xM, vM, degToRad(ssm));
+
+  udm = 0.0f;
+  ssm = 0.0f;
+  
+  /*rotX(vM, xM, degToRad(upDownAngle));
+  rotY(xM, vM, degToRad(viewAngle));*/
+  
+/*  vM[2][1] = sin(degToRad(upDownAngle));
+  vM[2][2] = cos(degToRad(upDownAngle));
+
+  vM[1][1] = cos(degToRad(upDownAngle));
+  vM[1][2] = -sin(degToRad(upDownAngle));*/
+  
   if (keys[SDLK_ESCAPE])
     quitProgram(0);
   if (keys[SDLK_F1])
     SDL_WM_ToggleFullScreen(surface);
+  if (keys[SDLK_w])
+  {
+    printf("sx:%g\nsy:%g\nsz:%g\n", vM[0][0], vM[0][1], vM[0][2]);
+    printf("ux:%g\nuy:%g\nuz:%g\n", vM[1][0], vM[1][1], vM[1][2]);
+    printf("vx:%g\nvy:%g\nvz:%g\n\n", vM[2][0], vM[2][1], vM[2][2]);
+  }
+  if (keys[SDLK_g])
+    regX = false;
+  else
+    regX = true;
+  if (keys[SDLK_h])
+    regY = false;
+  else
+    regY = true;
   if (keys[fkey])
-    fprintf(stdout, "fkey pressed\n");
+  {
+    xTrans -= speed * sin(degToRad(viewAngle));
+    zTrans += speed * cos(degToRad(viewAngle));
+  }
   if (keys[bkey])
-    fprintf(stdout, "bkey pressed\n");
+  {
+    xTrans += speed * sin(degToRad(viewAngle));
+    zTrans -= speed * cos(degToRad(viewAngle));
+  }
   if (keys[lkey])
     fprintf(stdout, "lkey pressed\n");
   if (keys[rkey])
     fprintf(stdout, "rkey pressed\n");
 }
+
+
+/*---------------------------------------------------------------------------*/ 
 
 void eventPoll()
 {
@@ -67,8 +123,16 @@ void eventPoll()
   while(SDL_PollEvent(&event)){
     switch(event.type){
     case SDL_MOUSEMOTION:
+      if (regX)
+      {
 	viewAngle -= (SC_WIDTH / 2 - event.motion.x) / mouseSense;
-	upDownAngle -= (SC_HEIGHT / 2 - event.motion.y) / mouseSense;
+	ssm -= (SC_WIDTH / 2 - event.motion.x) / mouseSense;
+      }
+      if (regY)
+      {
+	upDownAngle -= (SC_HEIGHT / 2 - event.motion.y) /mouseSense;
+	udm -= (SC_HEIGHT / 2 - event.motion.y) / mouseSense; 
+      }
       break;
     case SDL_ACTIVEEVENT: /* Check window focus */
       if (event.active.gain == 0)

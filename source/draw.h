@@ -1,6 +1,6 @@
-/*
+/*****************************************************************************\ 
  *
- * ProgName
+ * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
  * This program is free software; you can redistribute it and/or
@@ -27,26 +27,30 @@
  *
  * totto@boredom.nu
  *
- */
+\*****************************************************************************/ 
 
 
-/*
+/*****************************************************************************\ 
  *
  * This is the header file for the scenes drawing routines
  *
  * Written by Tor Arvid Lund
  *
- */
+\*****************************************************************************/ 
 
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "globals.h"
 
 
 extern GLfloat ex, ey, ez, rx, ry, rz, ux, uy, uz;
 extern float upDownAngle;
 extern float viewAngle;
 extern int triangle, quad;
+extern float xTrans, yTrans, zTrans;
+extern float vM[3][3];
+extern float xM[3][3];
 
 void drawScene();

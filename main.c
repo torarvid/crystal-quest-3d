@@ -1,6 +1,6 @@
-/*
+/*****************************************************************************\ 
  *
- * ProgName
+ * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
  * This program is free software; you can redistribute it and/or
@@ -27,20 +27,23 @@
  *
  * totto@boredom.nu
  *
- */
+\*****************************************************************************/ 
 
 
-/*
+/*****************************************************************************\ 
  *
  * This is the source file for the main function, and other routines
  * that... well... didn't belong anywhere else :)
  *
  * Written by Tor Arvid Lund
  *
- */
+\*****************************************************************************/ 
 
 
 #include "main.h"
+
+
+/*---------------------------------------------------------------------------*/ 
 
 /* A pointer to the drawingboard */
 SDL_Surface *surface;
@@ -75,11 +78,30 @@ float upDownAngle = 0.0f;
 /* Viewing angle */
 float viewAngle = 0.0f;
 
+/* Translation variables for x, y and z direction */
+float xTrans = 0.0f;
+float yTrans = 0.0f;
+float zTrans = 0.0f;
+
+float vM[3][3];
+float xM[3][3];
+
+/* Speed constant */
+const float speed = 0.2f;
+
 /* Mouse Sensitivity */
 float mouseSense = 40.0f;
 
-/* Variables to contain the eye point, reference point, and up vector*/
-GLfloat ex, ey, ez, rx, ry, rz, ux, uy, uz;
+
+/*---------------------------------------------------------------------------*/ 
+
+float degToRad(float deg)
+{
+  return deg * PI / 180.0f;
+}
+
+
+/*---------------------------------------------------------------------------*/ 
 
 void resizeWindow(int width, int height)
 {
@@ -99,29 +121,189 @@ void resizeWindow(int width, int height)
   glLoadIdentity();
 }
 
+
+/*---------------------------------------------------------------------------*/ 
+
 void quitProgram(int returnValue)
 {
   SDL_Quit();
   exit(returnValue);
 }
 
+
+/*---------------------------------------------------------------------------*/ 
+
+void rotVector(float vector[3], 
+	       float Matrix[3][3],
+	       float retMatrix[3][3],
+	       float angle
+    )
+{
+  float rotMatrix[3][3];
+  float x, y, z, s, c, t, sx, sy, sz, tyz, txz, txy;
+
+  x = vector[0];
+  y = vector[1];
+  z = vector[2];
+  s = sin(angle);
+  c = cos(angle);
+  t = 1.0f - c;
+
+  printf("x:%g\ny:%g\nz:%g\n\n", x, y, z);
+  sx = s * x;
+  sy = s * y;
+  sz = s * z;
+
+  tyz = t * y * z;
+  txz = t * x * z;
+  txy = t * x * y;
+
+  rotMatrix[0][0] = t * x * x + c;
+  rotMatrix[1][1] = t * y * y + c;
+  rotMatrix[2][2] = t * z * z + c;
+  
+  rotMatrix[0][1] = txy + sz;
+  rotMatrix[1][0] = txy - sz;
+
+  rotMatrix[0][2] = txz - sy;
+  rotMatrix[2][0] = txz + sy;
+
+  rotMatrix[1][2] = tyz + sx;
+  rotMatrix[2][1] = tyz - sx;
+  
+  retMatrix[0][0] = Matrix[0][0] * rotMatrix[0][0] +
+    		    Matrix[1][0] * rotMatrix[0][1] + 
+		    Matrix[2][0] * rotMatrix[0][2];
+  retMatrix[0][1] = Matrix[0][1] * rotMatrix[0][0] +
+    		    Matrix[1][1] * rotMatrix[0][1] + 
+		    Matrix[2][1] * rotMatrix[0][2];
+  retMatrix[0][2] = Matrix[0][2] * rotMatrix[0][0] +
+    		    Matrix[1][2] * rotMatrix[0][1] + 
+		    Matrix[2][2] * rotMatrix[0][2];
+  retMatrix[1][0] = Matrix[0][0] * rotMatrix[1][0] +
+    		    Matrix[1][0] * rotMatrix[1][1] + 
+		    Matrix[2][0] * rotMatrix[1][2];
+  retMatrix[1][1] = Matrix[0][1] * rotMatrix[1][0] +
+    		    Matrix[1][1] * rotMatrix[1][1] + 
+		    Matrix[2][1] * rotMatrix[1][2];
+  retMatrix[1][2] = Matrix[0][2] * rotMatrix[1][0] +
+    		    Matrix[1][2] * rotMatrix[1][1] + 
+		    Matrix[2][2] * rotMatrix[1][2];
+  retMatrix[2][0] = Matrix[0][0] * rotMatrix[2][0] +
+    		    Matrix[1][0] * rotMatrix[2][1] + 
+		    Matrix[2][0] * rotMatrix[2][2];
+  retMatrix[2][1] = Matrix[0][1] * rotMatrix[2][0] +
+    		    Matrix[1][1] * rotMatrix[2][1] + 
+		    Matrix[2][1] * rotMatrix[2][2];
+  retMatrix[2][2] = Matrix[0][2] * rotMatrix[2][0] +
+    		    Matrix[1][2] * rotMatrix[2][1] + 
+		    Matrix[2][2] * rotMatrix[2][2];
+}
+
+
+/*---------------------------------------------------------------------------*/ 
+
+void rotX(float Matrix[3][3], float retMatrix[3][3], float angle)
+{
+  retMatrix[0][0] = Matrix[0][0] * 1 +
+    		    Matrix[1][0] * 0 + 
+		    Matrix[2][0] * 0;
+  retMatrix[0][1] = Matrix[0][1] * 1 +
+    		    Matrix[1][1] * 0 + 
+		    Matrix[2][1] * 0;
+  retMatrix[0][2] = Matrix[0][2] * 1 +
+    		    Matrix[1][2] * 0 + 
+		    Matrix[2][2] * 0;
+  retMatrix[1][0] = Matrix[0][0] * 0 +
+    		    Matrix[1][0] * cos(angle) + 
+		    Matrix[2][0] * sin(angle);
+  retMatrix[1][1] = Matrix[0][1] * 0 +
+    		    Matrix[1][1] * cos(angle) + 
+		    Matrix[2][1] * sin(angle);
+  retMatrix[1][2] = Matrix[0][2] * 0 +
+    		    Matrix[1][2] * cos(angle) + 
+		    Matrix[2][2] * sin(angle);
+  retMatrix[2][0] = Matrix[0][0] * 0 +
+    		    Matrix[1][0] * -sin(angle) + 
+		    Matrix[2][0] * cos(angle);
+  retMatrix[2][1] = Matrix[0][1] * 0 +
+    		    Matrix[1][1] * -sin(angle) + 
+		    Matrix[2][1] * cos(angle);
+  retMatrix[2][2] = Matrix[0][2] * 0 +
+    		    Matrix[1][2] * -sin(angle) + 
+		    Matrix[2][2] * cos(angle);
+}
+
+
+/*---------------------------------------------------------------------------*/ 
+
+void rotY(float Matrix[3][3], float retMatrix[3][3], float angle)
+{
+  retMatrix[0][0] = Matrix[0][0] * cos(angle) +
+    		    Matrix[1][0] * 0 + 
+		    Matrix[2][0] * -sin(angle);
+  retMatrix[0][1] = Matrix[0][1] * cos(angle) +
+    		    Matrix[1][1] * 0 + 
+		    Matrix[2][1] * -sin(angle);
+  retMatrix[0][2] = Matrix[0][2] * cos(angle) +
+    		    Matrix[1][2] * 0 + 
+		    Matrix[2][2] * -sin(angle);
+  retMatrix[1][0] = Matrix[0][0] * 0 +
+    		    Matrix[1][0] * 1 + 
+		    Matrix[2][0] * 0;
+  retMatrix[1][1] = Matrix[0][1] * 0 +
+    		    Matrix[1][1] * 1 + 
+		    Matrix[2][1] * 0;
+  retMatrix[1][2] = Matrix[0][2] * 0 +
+    		    Matrix[1][2] * 1 + 
+		    Matrix[2][2] * 0;
+  retMatrix[2][0] = Matrix[0][0] * sin(angle) +
+    		    Matrix[1][0] * 0 + 
+		    Matrix[2][0] * cos(angle);
+  retMatrix[2][1] = Matrix[0][1] * sin(angle) +
+    		    Matrix[1][1] * 0 + 
+		    Matrix[2][1] * cos(angle);
+  retMatrix[2][2] = Matrix[0][2] * sin(angle) +
+    		    Matrix[1][2] * 0 + 
+		    Matrix[2][2] * cos(angle);
+}
+
+
+/*---------------------------------------------------------------------------*/ 
+
+void loadIdentity(float Matrix[3][3])
+{
+  int i, j;
+
+  for(i=0;i<3;i++)
+    for(j=0;j<3;j++)
+      Matrix[i][j] = (i == j) ? 1.0f : 0.0f;
+  Matrix[2][2] = -1.0f;
+}
+
+
+/*---------------------------------------------------------------------------*/ 
+
 int main(int argc, char **argv)
 {
   /* Struct to hold some video information*/
   const SDL_VideoInfo *vidInfo;
 
-  ex = 0.0f;
-  ey = 0.0f;
-  ez = 20.0f;
-  rx = 0.0f;
-  ry = 0.0f;
-  rz = 0.0f;
-  ux = 0.0f;
-  uy = 1.0f;
-  uz = 0.0f;
+  vM[0][0] = 1.0f;
+  vM[0][1] = 0.0f;
+  vM[0][2] = 0.0f;
+
+  vM[1][0] = 0.0f;
+  vM[1][1] = 1.0f; 
+  vM[1][2] = 0.0f;
+
+  vM[2][0] = 0.0f;
+  vM[2][1] = 0.0f;
+  vM[2][2] = 1.0f;  
 
   /* Initialization of SDL video system */
-  if (SDL_Init(SDL_INIT_VIDEO) < 0){
+  if (SDL_Init(SDL_INIT_VIDEO) < 0)
+  {
     fprintf(stderr, "SDL Video initialization failed: %s\n", SDL_GetError());
     quitProgram(1);
   }
@@ -129,7 +311,8 @@ int main(int argc, char **argv)
   isActive = true;
 
   vidInfo = SDL_GetVideoInfo();
-  if (!vidInfo){
+  if (!vidInfo)
+  {
     fprintf(stderr, "SDL Video query failed: %s\n", SDL_GetError());
     quitProgram(1);
   }
@@ -140,15 +323,18 @@ int main(int argc, char **argv)
   
   /* Enable hardware graphics buffer if available, else enable software
      graphics buffer */
-  if (vidInfo->hw_available){
+  if (vidInfo->hw_available)
+  {
     vidFlags |= SDL_HWSURFACE;
   }
-  else{
+  else
+  {
     vidFlags |= SDL_SWSURFACE;
   }
 
   /* Enable hardware blitting if available */
-  if (vidInfo->blit_hw){
+  if (vidInfo->blit_hw)
+  {
     vidFlags |= SDL_HWACCEL;
   }
 
@@ -170,14 +356,16 @@ int main(int argc, char **argv)
   surface = SDL_SetVideoMode(SC_WIDTH, SC_HEIGHT, max_bpp, vidFlags);
   
   /* Verify that the creation of a surface went OK */
-  if (!surface){
+  if (!surface)
+  {
     fprintf(stderr, "Couldn't create surface at resolution %dx%dx%d: %s\n", 
 	    SC_WIDTH, SC_HEIGHT, max_bpp, SDL_GetError());
     quitProgram(1);
   }
   
   /* Enable repeating of keys 890510*/
-  if (SDL_EnableKeyRepeat(100, 80)){
+  if (SDL_EnableKeyRepeat(100, 80))
+  {
     fprintf(stderr, "Failed to enable key repeating %s\n", SDL_GetError());
     quitProgram(1);
   }
@@ -191,7 +379,8 @@ int main(int argc, char **argv)
   resizeWindow(SC_WIDTH, SC_HEIGHT);
 
   /* Infinite loop which polls for events and draws the scene */
-  while(1){
+  while(1)
+  {
     SDL_WarpMouse(SC_WIDTH / 2, SC_HEIGHT / 2);
     eventPoll();
     if (isActive)

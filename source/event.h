@@ -1,6 +1,6 @@
-/*
+/*****************************************************************************\ 
  *
- * ProgName
+ * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
  * This program is free software; you can redistribute it and/or
@@ -27,22 +27,23 @@
  *
  * totto@boredom.nu
  *
- */
+\*****************************************************************************/ 
 
 
-/*
+/*****************************************************************************\ 
  *
  * This is the header file for the event polling routines
  *
  * Written by Tor Arvid Lund
  *
- */
+\*****************************************************************************/ 
 
 
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
 #include "globals.h"
+#include <math.h>
 
 extern SDL_Surface *surface;
 extern int max_bpp;
@@ -54,8 +55,21 @@ extern GLfloat ex, ey, ez, rx, ry, rz, ux, uy, uz;
 extern float upDownAngle;
 extern float viewAngle;
 extern float mouseSense;
+extern float xTrans, yTrans, zTrans;
+extern float speed;
+extern float vM[3][3];
+extern float xM[3][3];
 
+extern void loadIdentity(float Matrix[3][3]);
+extern void rotVector(float vector[3], 
+    		      float Matrix[3][3], 
+		      float retMatrix[3][3], 
+		      float angle
+		      );
+extern void rotX(float Matrix[3][3], float retMatrix[3][3], float angle);
+extern void rotY(float Matrix[3][3], float retMatrix[3][3], float angle);
 extern void quitProgram(int returnValue);
 extern void resizeWindow(int width, int height);
+extern float degToRad(float deg);
 
 void eventPoll();
