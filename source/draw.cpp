@@ -77,13 +77,17 @@ void drawScene()
       0.0f, 0.0f, 0.0f,
       viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);
 
-  //glRotatef(shipXAngle, 1.0f, 0.0f, 0.0f);
+  glRotatef(-upDownAngle, viewMatrix[0][0], viewMatrix[0][1], viewMatrix[0][2]);
+  glRotatef(-viewAngle, viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);
+  //glRotatef(-rotAngle, viewMatrix[2][0], viewMatrix[2][1], viewMatrix[2][2]);
   glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
   glScalef(shipScale, shipScale, shipScale);
   ourShip->Draw();
   glScalef(1 / shipScale, 1 / shipScale, 1 / shipScale);
   glRotatef(-180.0f, 0.0f, 1.0f, 0.0f);
-  //glRotatef(-shipXAngle, 1.0f, 0.0f, 0.0f);
+  //glRotatef(rotAngle, viewMatrix[2][0], viewMatrix[2][1], viewMatrix[2][2]);
+  glRotatef(viewAngle, viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);
+  glRotatef(upDownAngle, viewMatrix[0][0], viewMatrix[0][1], viewMatrix[0][2]);
   
   /* Position ourselves */
   glTranslatef(xTrans, yTrans, zTrans);

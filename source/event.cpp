@@ -110,9 +110,15 @@ void processKeys()
     zSpeed += speed * viewMatrix[2][2];
   }
   if (keys[lkey])
+  {
+    rotAngle += rotSpeed;
     rm += rotSpeed;
+  }
   if (keys[rkey])
+  {
+    rotAngle -= rotSpeed;
     rm -= rotSpeed;
+  }
   xTrans += xSpeed;
   yTrans += ySpeed;
   zTrans += zSpeed;

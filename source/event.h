@@ -53,6 +53,7 @@ extern int keys[256];
 extern bool isActive;
 extern float upDownAngle;
 extern float viewAngle;
+extern float rotAngle;
 extern float mouseSense;
 extern float xTrans, yTrans, zTrans;
 extern float xSpeed, ySpeed, zSpeed;

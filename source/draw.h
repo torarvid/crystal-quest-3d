@@ -50,6 +50,7 @@
 extern GLfloat ex, ey, ez, rx, ry, rz, ux, uy, uz;
 extern float upDownAngle;
 extern float viewAngle;
+extern float rotAngle;
 extern int triangle, quad;
 extern float xTrans, yTrans, zTrans;
 extern float viewMatrix[3][3];

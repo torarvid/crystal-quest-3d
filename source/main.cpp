@@ -78,6 +78,9 @@ float upDownAngle = 0.0f;
 /* Viewing angle */
 float viewAngle = 0.0f;
 
+/* Rotation angle */
+float rotAngle = 0.0f;
+
 /* Translation variables for x, y and z direction */
 float xTrans = 0.0f;
 float yTrans = 0.0f;
