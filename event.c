@@ -46,35 +46,32 @@
 
 static float udm = 0.0f;
 static float ssm = 0.0f;
+static float rm = 0.0f;
 bool regX = true;
 bool regY = false;
 
 void processKeys()
 {
-  Vector3f viewVector;
-  static float xAxis[] = {1.0f, 0.0f, 0.0f};
+  float xAxis[] = {1.0f, 0.0f, 0.0f};
   float yAxis[] = {0.0f, 1.0f, 0.0f};
+  float zAxis[] = {0.0f, 0.0f, 1.0f};
+
+  float rotSpeed = 0.4f;
+
+  static float xSpeed = 0.0f;
+  static float ySpeed = 0.0f;
+  static float zSpeed = 0.0f;
   
-  viewVector.y = sin(degToRad(upDownAngle));
-  viewVector.x = sin(degToRad(viewAngle)) * cos(degToRad(upDownAngle));
-  viewVector.z = cos(degToRad(viewAngle)) * cos(degToRad(upDownAngle));
-
-  /*loadIdentity(vM);*/
-
   rotVector(xAxis, vM, xM, degToRad(udm));
   rotVector(yAxis, xM, vM, degToRad(ssm));
+  rotVector(zAxis, vM, xM, degToRad(rm));
+
+  /* dummy... (matrix copy) */
+  rotVector(xAxis, xM, vM, 0.0f);
 
   udm = 0.0f;
   ssm = 0.0f;
-  
-  /*rotX(vM, xM, degToRad(upDownAngle));
-  rotY(xM, vM, degToRad(viewAngle));*/
-  
-/*  vM[2][1] = sin(degToRad(upDownAngle));
-  vM[2][2] = cos(degToRad(upDownAngle));
-
-  vM[1][1] = cos(degToRad(upDownAngle));
-  vM[1][2] = -sin(degToRad(upDownAngle));*/
+  rm = 0.0f;
   
   if (keys[SDLK_ESCAPE])
     quitProgram(0);
@@ -96,18 +93,23 @@ void processKeys()
     regY = true;
   if (keys[fkey])
   {
-    xTrans -= speed * sin(degToRad(viewAngle));
-    zTrans += speed * cos(degToRad(viewAngle));
+    xSpeed -= speed * xM[2][0];
+    ySpeed -= speed * xM[2][1];
+    zSpeed -= speed * xM[2][2];
   }
   if (keys[bkey])
   {
-    xTrans += speed * sin(degToRad(viewAngle));
-    zTrans -= speed * cos(degToRad(viewAngle));
+    xSpeed += speed * xM[2][0];
+    ySpeed += speed * xM[2][1];
+    zSpeed += speed * xM[2][2];
   }
   if (keys[lkey])
-    fprintf(stdout, "lkey pressed\n");
+    rm += rotSpeed;
   if (keys[rkey])
-    fprintf(stdout, "rkey pressed\n");
+    rm -= rotSpeed;
+  xTrans += xSpeed;
+  yTrans += ySpeed;
+  zTrans += zSpeed;
 }
 
 

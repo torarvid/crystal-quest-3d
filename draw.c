@@ -50,7 +50,7 @@ void drawScene()
   static int draw_t0 = 0;
   static int frame_t0 = 0;
   static int frames = 0;
-    
+
   glDisable( GL_DEPTH_TEST );
   glDisable( GL_DITHER );
   glShadeModel( GL_FLAT );
@@ -59,13 +59,11 @@ void drawScene()
   glEnable( GL_DITHER );
   glShadeModel( GL_SMOOTH );
 
-/* Clear The Screen And The Depth Buffer*/ 
-
   glLoadIdentity();
 
-  /*glRotatef(upDownAngle, vM[0][0], vM[0][1], vM[0][2]);
-
-  glRotatef(viewAngle, vM[1][0], vM[1][1], vM[1][2]);*/
+  gluLookAt(0.0f, 0.0f, 0.0f, 
+      xM[2][0], xM[2][1], xM[2][2], 
+      xM[1][0], xM[1][1], xM[1][2]);
 
   glTranslatef(xTrans, yTrans, zTrans);
 
@@ -74,30 +72,61 @@ void drawScene()
   glCallList(quad);
 
   glBegin(GL_TRIANGLES);
-  glColor3f(1.0f, 1.0f, 0.0f);
+  glColor3f(0.5f, 1.0f, 0.2f);
   glVertex3f(0.0f, -5.0f, -1.0f);
-  glColor3f(0.0f, 1.0f, 1.0f);
+  glColor3f(0.0f, 1.0f, 0.0f);
   glVertex3f(-1.0f, -5.0f, 1.0f);
-  glColor3f(1.0f, 0.0f, 1.0f);
+  glColor3f(1.0f, 0.0f, 0.3f);
   glVertex3f(1.0f, -5.0f, 1.0f);
+  glEnd();
+  
+  glBegin(GL_TRIANGLES);
+  glColor3f(1.0f, 1.0f, 1.0f);
+  glVertex3f(5.0f, 1.0f, 0.0f);
+  glColor3f(0.0f, 0.0f, 1.0f);
+  glVertex3f(5.0f, -1.0f, -1.0f);
+  glColor3f(0.7f, 0.0f, 1.0f);
+  glVertex3f(5.0f, -1.0f, 1.0f);
+  glEnd();
+  
+  glBegin(GL_TRIANGLES);
+  glColor3f(0.0f, 0.6f, 0.0f);
+  glVertex3f(-5.0f, 1.0f, 0.0f);
+  glColor3f(0.0f, 0.0f, 1.0f);
+  glVertex3f(-5.0f, -1.0f, -1.0f);
+  glColor3f(1.0f, 0.0f, 0.0f);
+  glVertex3f(-5.0f, -1.0f, 1.0f);
+  glEnd();
+  
+  glBegin(GL_TRIANGLES);
+  glColor3f(1.0f, 1.0f, 1.0f);
+  glVertex3f(0.0f, 1.0f, 5.0f);
+  glColor3f(0.8f, 1.0f, 0.3f);
+  glVertex3f(1.0f, -1.0f, 5.0f);
+  glColor3f(0.0f, 0.3f, 0.3f);
+  glVertex3f(-1.0f, -1.0f, 5.0f);
+  glEnd();
+  
+  glBegin(GL_TRIANGLES);
+  glColor3f(0.0f, 5.0f, 1.0f);
+  glVertex3f(0.0f, 5.0f, -1.0f);
+  glColor3f(0.0f, 1.0f, 1.0f);
+  glVertex3f(-1.0f, 5.0f, 1.0f);
+  glColor3f(1.0f, 0.0f, 1.0f);
+  glVertex3f(1.0f, 5.0f, 1.0f);
   glEnd();
   
   glBegin(GL_LINES);
   glColor3f(1.0f, 0.0f, 0.0f);
   glVertex3f(-1.0f, 1.0f, -6.0f);
-  glVertex3f(-1.0f + vM[0][0], 1.0f + vM[0][1], -6.0f + vM[0][2]);
+  glVertex3f(-1.0f + xM[0][0], 1.0f + xM[0][1], -6.0f + xM[0][2]);
   glColor3f(0.0f, 1.0f, 0.0f);
   glVertex3f(-1.0f, 1.0f, -6.0f);
-  glVertex3f(-1.0f + vM[1][0], 1.0f + vM[1][1], -6.0f + vM[1][2]);
+  glVertex3f(-1.0f + xM[1][0], 1.0f + xM[1][1], -6.0f + xM[1][2]);
   glColor3f(0.0f, 0.0f, 1.0f);
   glVertex3f(-1.0f, 1.0f, -6.0f);
-  glVertex3f(-1.0f + vM[2][0], 1.0f + vM[2][1], -6.0f + vM[2][2]);
+  glVertex3f(-1.0f + xM[2][0], 1.0f + xM[2][1], -6.0f + xM[2][2]);
   glEnd();
-
-  while((t = SDL_GetTicks())){
-    if ((t - draw_t0) > (1000 / 70))
-      break;
-  }
 
   SDL_GL_SwapBuffers( );
 
@@ -105,8 +134,8 @@ void drawScene()
   t = SDL_GetTicks();
   if (t - frame_t0 >= 5000){
     float secs = (t - frame_t0) / 1000.0f;
-/*    printf("%d frames in %g seconds: %g fps\n", 
-	   frames, secs, frames / secs);*/
+    printf("%d frames in %g seconds: %g fps\n", 
+	   frames, secs, frames / secs);
     frames = 0;
     frame_t0 = t;
   }

@@ -43,6 +43,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "globals.h"
+#include <math.h>
 
 
 extern GLfloat ex, ey, ez, rx, ry, rz, ux, uy, uz;
@@ -53,4 +54,5 @@ extern float xTrans, yTrans, zTrans;
 extern float vM[3][3];
 extern float xM[3][3];
 
+extern float radToDeg(float rad);
 void drawScene();

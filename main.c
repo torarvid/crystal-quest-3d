@@ -87,7 +87,7 @@ float vM[3][3];
 float xM[3][3];
 
 /* Speed constant */
-const float speed = 0.2f;
+const float speed = 0.0002f;
 
 /* Mouse Sensitivity */
 float mouseSense = 40.0f;
@@ -98,6 +98,14 @@ float mouseSense = 40.0f;
 float degToRad(float deg)
 {
   return deg * PI / 180.0f;
+}
+
+
+/*---------------------------------------------------------------------------*/ 
+
+float radToDeg(float rad)
+{
+  return rad / PI * 180.0f;
 }
 
 
@@ -149,7 +157,7 @@ void rotVector(float vector[3],
   c = cos(angle);
   t = 1.0f - c;
 
-  printf("x:%g\ny:%g\nz:%g\n\n", x, y, z);
+  /*printf("x:%g\ny:%g\nz:%g\n\n", x, y, z);*/
   sx = s * x;
   sy = s * y;
   sz = s * z;
@@ -299,7 +307,7 @@ int main(int argc, char **argv)
 
   vM[2][0] = 0.0f;
   vM[2][1] = 0.0f;
-  vM[2][2] = 1.0f;  
+  vM[2][2] = -1.0f;  
 
   /* Initialization of SDL video system */
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
