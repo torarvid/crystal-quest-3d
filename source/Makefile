@@ -1,8 +1,10 @@
 #This is the makefile for Crystal Quest 3D
 
-CC = gcc
+CC = g++
 target = cq3d
-depends = 	init.o \
+depends = 	Vector.o \
+		Model3ds.o \
+		init.o \
 		event.o \
 		draw.o \
 		main.o
@@ -28,7 +30,7 @@ opt:$(depends)
 	@echo Making optimized target: $(target)
 	$(CC) -o $(target) $(depends) $(CFLAGS) $(CFLAGS_RELEASE) $(LIBS)
 
-.c.o:
+.cpp.o:
 	$(CC) $(CFLAGS) -c $<
 
 clean:

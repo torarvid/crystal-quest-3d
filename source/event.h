@@ -51,21 +51,18 @@ extern int vidFlags;
 extern const int fkey, bkey, lkey, rkey;
 extern int keys[256];
 extern bool isActive;
-extern GLfloat ex, ey, ez, rx, ry, rz, ux, uy, uz;
 extern float upDownAngle;
 extern float viewAngle;
 extern float mouseSense;
 extern float xTrans, yTrans, zTrans;
+extern float xSpeed, ySpeed, zSpeed;
+extern float xAxis[3], yAxis[3], zAxis[3];
 extern float speed;
-extern float vM[3][3];
-extern float xM[3][3];
+extern float rotSpeed;
+extern float viewMatrix[3][3];
 
 extern void loadIdentity(float Matrix[3][3]);
-extern void rotVector(float vector[3], 
-    		      float Matrix[3][3], 
-		      float retMatrix[3][3], 
-		      float angle
-		      );
+extern void rotVector(float vector[3], float Matrix[3][3], float angle);
 extern void rotX(float Matrix[3][3], float retMatrix[3][3], float angle);
 extern void rotY(float Matrix[3][3], float retMatrix[3][3], float angle);
 extern void quitProgram(int returnValue);

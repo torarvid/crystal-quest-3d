@@ -42,5 +42,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
+#include "Model3ds.h"
 
 void initGL();

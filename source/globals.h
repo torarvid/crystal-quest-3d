@@ -46,9 +46,9 @@
 #define SC_HEIGHT 600
 #define SC_BPP 32
 
-typedef enum{false, true} bool;
+//typedef enum{false, true} bool;
 
-typedef struct
+/*typedef struct
 {
   float x;
   float y;
@@ -58,4 +58,4 @@ typedef struct
 typedef struct
 {
   Vector3f v1, v2, v3;
-} Matrix3vf;
+} Matrix3vf;*/
