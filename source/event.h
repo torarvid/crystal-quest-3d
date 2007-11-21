@@ -3,6 +3,8 @@
  * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
+ * $Id: event.h,v 1.1 2003/02/22 19:48:57 totto Exp $
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -39,35 +41,32 @@
 \*****************************************************************************/ 
 
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <SDL/SDL.h>
 #include "globals.h"
-#include <math.h>
+#include "Model3ds.h"
+#include "particle.h"
 
-extern SDL_Surface *surface;
-extern int max_bpp;
-extern int vidFlags;
-extern const int fkey, bkey, lkey, rkey;
-extern int keys[256];
-extern bool isActive;
-extern float upDownAngle;
-extern float viewAngle;
-extern float rotAngle;
-extern float mouseSense;
-extern float xTrans, yTrans, zTrans;
-extern float xSpeed, ySpeed, zSpeed;
-extern float xAxis[3], yAxis[3], zAxis[3];
-extern float speed;
-extern float rotSpeed;
-extern float viewMatrix[3][3];
+/*---------------------------------------------------------------------------*/ 
 
-extern void loadIdentity(float Matrix[3][3]);
-extern void rotVector(float vector[3], float Matrix[3][3], float angle);
-extern void rotX(float Matrix[3][3], float retMatrix[3][3], float angle);
-extern void rotY(float Matrix[3][3], float retMatrix[3][3], float angle);
-extern void quitProgram(int returnValue);
-extern void resizeWindow(int width, int height);
-extern float degToRad(float deg);
+/* Up-Down movement */
+static float udm = -90.0f;
+
+/* Side-Side movement */
+static float ssm = 0.0f;
+
+static int prevTime = 0;
+int cur_time = 0;
+
+/* Rotation movement */
+static float rm = 0.0f;
+
+/* TEMPORARY - register mouse x and y movement... */
+static bool regX = true;
+static bool regY = false;
+
+bool printTempMatrix = false;
+bool printFPS = false;
+
+/*---------------------------------------------------------------------------*/
 
 void eventPoll();
+void processKeys();

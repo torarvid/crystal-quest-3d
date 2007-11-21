@@ -3,6 +3,8 @@
  * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
+ * $Id: main.cpp,v 1.1 2003/02/22 19:48:57 totto Exp $
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -32,8 +34,7 @@
 
 /*****************************************************************************\ 
  *
- * This is the source file for the main function, and other routines
- * that... well... didn't belong anywhere else :)
+ * This is the source file for the main function
  *
  * Written by Tor Arvid Lund
  *
@@ -41,240 +42,79 @@
 
 
 #include "main.h"
-#include <stdlib.h>
 
-
-/*---------------------------------------------------------------------------*/ 
-
-/* A pointer to the drawingboard */
-SDL_Surface *surface;
-
-/* Variable to hold the maximum color depth */
-int max_bpp;
-
-/* Variable to hold flags to be passed to SDL_SetVideoMode */
-int vidFlags;
-
-/* Variable to tell us if our window is active or not */
-bool isActive;
-
-/* Array to hold key press information */
-int keys[256];
-
-/* Forward key */
-int fkey = SDLK_f;
-
-/* Backward key */
-int bkey = SDLK_d;
-
-/* Strafe left key */
-int lkey = SDLK_a;
-
-/* Strafe right key */
-int rkey = SDLK_s;
-
-/* Angle for looking up/down */
-float upDownAngle = 0.0f;
-
-/* Viewing angle */
-float viewAngle = 0.0f;
-
-/* Rotation angle */
-float rotAngle = 0.0f;
-
-/* Translation variables for x, y and z direction */
-float xTrans = 0.0f;
-float yTrans = 0.0f;
-float zTrans = 0.0f;
-
-/* Matrix holding viewing vectors */
-float viewMatrix[3][3];
-
-/* Speed delta constant */
-float speed = 0.0002f;
-
-/* Rotation speed */
-float rotSpeed = 0.4f;
-
-/* Directional speed */
-float xSpeed = 0.0f;
-float ySpeed = 0.0f;
-float zSpeed = 0.0f;
-  
-/* Vectors holding the generic axii */
-float xAxis[] = {1.0f, 0.0f, 0.0f};
-float yAxis[] = {0.0f, 1.0f, 0.0f};
-float zAxis[] = {0.0f, 0.0f, 1.0f};
-
-/* Mouse Sensitivity */
-float mouseSense = 40.0f;
-
-/* Camera position buffer */
-posf *camBase;
-posf *camWrt;
-posf *camRead;
-bool startCam = false;
-
-
-/*---------------------------------------------------------------------------*/ 
-
-float degToRad(float deg)
-{
-  return deg * PI / 180.0f;
-}
-
-
-/*---------------------------------------------------------------------------*/ 
-
-float radToDeg(float rad)
-{
-  return rad / PI * 180.0f;
-}
-
-
-/*---------------------------------------------------------------------------*/ 
-
-void resizeWindow(int width, int height)
-{
-  /* Prevent division by zero errors */
-  if (height == 0)
-    height = 1;
-
-  /* Set up GL viewport */
-  glViewport(0, 0, width, height);
-
-  /* Apply our viewing volume to the projection matrix */
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 1.0f, 1000.0f);
-  /* glOrtho(0.0f, width, height, 0.0f, -1.0f, 100.0f);*/
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-}
-
-
-/*---------------------------------------------------------------------------*/ 
-
-void quitProgram(int returnValue)
-{
-  free(camBase);
-  SDL_Quit();
-  exit(returnValue);
-}
-
-
-/*---------------------------------------------------------------------------*/ 
-
-void rotVector(float vector[3], float inMatrix[3][3], float angle)
-{
-  int i, j;
-  float Matrix[3][3];
-  float rotMatrix[3][3];
-  float x, y, z, s, c, t, sx, sy, sz, tyz, txz, txy;
-  float length[3];
-
-  for(i=0;i<3;i++)
-    for(j=0;j<3;j++)
-      Matrix[i][j] = inMatrix[i][j];
-  
-  x = vector[0];
-  y = vector[1];
-  z = vector[2];
-  s = sin(angle);
-  c = cos(angle);
-  t = 1.0f - c;
-
-  /*printf("x:%g\ny:%g\nz:%g\n\n", x, y, z);*/
-  sx = s * x;
-  sy = s * y;
-  sz = s * z;
-
-  tyz = t * y * z;
-  txz = t * x * z;
-  txy = t * x * y;
-
-  rotMatrix[0][0] = t * x * x + c;
-  rotMatrix[1][1] = t * y * y + c;
-  rotMatrix[2][2] = t * z * z + c;
-  
-  rotMatrix[0][1] = txy + sz;
-  rotMatrix[1][0] = txy - sz;
-
-  rotMatrix[0][2] = txz - sy;
-  rotMatrix[2][0] = txz + sy;
-
-  rotMatrix[1][2] = tyz + sx;
-  rotMatrix[2][1] = tyz - sx;
-  
-  inMatrix[0][0] = Matrix[0][0] * rotMatrix[0][0] +
-    		   Matrix[1][0] * rotMatrix[0][1] + 
-		   Matrix[2][0] * rotMatrix[0][2];
-  inMatrix[0][1] = Matrix[0][1] * rotMatrix[0][0] +
-    		   Matrix[1][1] * rotMatrix[0][1] + 
-		   Matrix[2][1] * rotMatrix[0][2];
-  inMatrix[0][2] = Matrix[0][2] * rotMatrix[0][0] +
-    		   Matrix[1][2] * rotMatrix[0][1] + 
-		   Matrix[2][2] * rotMatrix[0][2];
-  inMatrix[1][0] = Matrix[0][0] * rotMatrix[1][0] +
-    		   Matrix[1][0] * rotMatrix[1][1] + 
-		   Matrix[2][0] * rotMatrix[1][2];
-  inMatrix[1][1] = Matrix[0][1] * rotMatrix[1][0] +
-    		   Matrix[1][1] * rotMatrix[1][1] + 
-		   Matrix[2][1] * rotMatrix[1][2];
-  inMatrix[1][2] = Matrix[0][2] * rotMatrix[1][0] +
-    		   Matrix[1][2] * rotMatrix[1][1] + 
-		   Matrix[2][2] * rotMatrix[1][2];
-  inMatrix[2][0] = Matrix[0][0] * rotMatrix[2][0] +
-    		   Matrix[1][0] * rotMatrix[2][1] + 
-		   Matrix[2][0] * rotMatrix[2][2];
-  inMatrix[2][1] = Matrix[0][1] * rotMatrix[2][0] +
-    		   Matrix[1][1] * rotMatrix[2][1] + 
-		   Matrix[2][1] * rotMatrix[2][2];
-  inMatrix[2][2] = Matrix[0][2] * rotMatrix[2][0] +
-    		   Matrix[1][2] * rotMatrix[2][1] + 
-		   Matrix[2][2] * rotMatrix[2][2];
-  for(i=0;i<2;i++)
-    length[i] = sqrt(inMatrix[i][0] * inMatrix[i][0] + 
-      inMatrix[i][1] * inMatrix[i][1] +
-      inMatrix[i][2] * inMatrix[i][2]);
-  for(i=0;i<2;i++)
-    for(j=0;j<2;j++)
-      inMatrix[i][j] /= length[i];
-}
-
-
-/*---------------------------------------------------------------------------*/ 
-
-void loadIdentity(float Matrix[3][3])
-{
-  int i, j;
-
-  for(i=0;i<3;i++)
-    for(j=0;j<3;j++)
-      Matrix[i][j] = (i == j) ? 1.0f : 0.0f;
-}
-
-
-/*---------------------------------------------------------------------------*/ 
+/*---------------------------------------------------------------------------*/
 
 int main(int argc, char **argv)
 {
-  /* Struct to hold some video information*/
+  int i;
   const SDL_VideoInfo *vidInfo;
+
+  fprintf(stdout, "\
+This is Crystal Quest 3D\n\
+\n\
+This program is free software, licensed under the GNU General Public\n\
+License. Read more about it in the file GPL that should be distributed\n\
+along with this program.\n\
+\n\
+Copyright (C) 2002 - Tor Arvid Lund\n");
+  
+  for(i=1;i<argc;i++)
+  {
+    if ((strcmp(argv[i],"-d") == 0) || (strcmp(argv[i],"--debug")) == 0)
+    {
+      debug = true;
+      fprintf(stderr, "Debug mode on\n");
+    }
+    else if ((strcmp(argv[i], "-f") == 0) || 
+	(strcmp(argv[i], "--full-screen")) == 0)
+      vidFlags |= SDL_FULLSCREEN;
+    else if ((strcmp(argv[i], "-v") == 0) || 
+	(strcmp(argv[i], "--version")) == 0)
+    {
+      fprintf(stdout, "\nThis is version %d.%d.%d of Crystal Quest 3D\n", 
+	  vMajor, vMinor, vBuild);
+      exit(0);
+    }
+    else if ((strcmp(argv[i], "-h") == 0) || (strcmp(argv[i], "--help") == 0))
+      usage();
+    else
+    {
+      fprintf(stderr, "\nError! Unknown option: %s\n\n", argv[i]);
+      usage();
+    }
+  }
+  
+  if(debug)
+    logfile = stderr;
+  else
+    logfile = fopen(".log_cq3d", "w");
+
+  /* Struct to hold some video information*/
 
   camBase = (posf *)malloc(CAM_FRAME_DELAY * sizeof(posf));
   if (camBase == NULL)
   {
-    printf("Cannot allocate memory. Quitting...\n");
+    fprintf(stderr, "Cannot allocate memory. Quitting...\n");
     quitProgram(1);
   }
   camRead = camBase;
   camWrt = camBase;
-  
+
+  shipBase = (vec3f *)malloc(CAM_FRAME_DELAY * sizeof(posf));
+  if (shipBase == NULL)
+  {
+    fprintf(stderr, "Cannot allocate memory. Quitting...\n");
+    quitProgram(1);
+  }
+  shipRead = shipBase;
+  shipWrt = shipBase;
+
   /* Initialize the viewing matrix */
   loadIdentity(viewMatrix);
   viewMatrix[2][2] = -1.0f;
-  
+
+
   /* Initialization of SDL video system */
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
   {
@@ -293,8 +133,8 @@ int main(int argc, char **argv)
 
   /* Enable OpenGL, double buffering, storing of palette in hardware, and
      resizing of the window */
-  vidFlags = SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_HWPALETTE | SDL_RESIZABLE;
-  
+  vidFlags |= SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_HWPALETTE | SDL_RESIZABLE;
+
   /* Enable hardware graphics buffer if available, else enable software
      graphics buffer */
   if (vidInfo->hw_available)
@@ -312,31 +152,30 @@ int main(int argc, char **argv)
     vidFlags |= SDL_HWACCEL;
   }
 
-  /* Get the mouse cursor to the center of out window */
-  SDL_ShowCursor(SDL_DISABLE);
-  SDL_WarpMouse(SC_WIDTH / 2, SC_HEIGHT / 2);
-
   /* Sets up OpenGL double buffering */
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
   /* Finding the maximum color depth */
-  fprintf(stdout, "Checking video mode: %dx%dx%d\n",
-	  SC_WIDTH, SC_HEIGHT, SC_BPP);
+  fprintf(logfile, "Checking video mode: %dx%dx%d... ",
+      SC_WIDTH, SC_HEIGHT, SC_BPP);
   max_bpp = SDL_VideoModeOK(SC_WIDTH, SC_HEIGHT, SC_BPP, vidFlags);
+  fprintf(logfile, "OK\n");
 
   /* Setting video mode with maximum color depth */
-  fprintf(stdout, "Setting video mode: %dx%dx%d\n", 
-	  SC_WIDTH, SC_HEIGHT, max_bpp);
+  fprintf(logfile, "Setting video mode: %dx%dx%d... ", 
+      SC_WIDTH, SC_HEIGHT, max_bpp);
   surface = SDL_SetVideoMode(SC_WIDTH, SC_HEIGHT, max_bpp, vidFlags);
-  
+  SDL_WM_SetCaption("Crystal Quest 3D", NULL);
+  fprintf(logfile, "OK\n");
+
   /* Verify that the creation of a surface went OK */
   if (!surface)
   {
     fprintf(stderr, "Couldn't create surface at resolution %dx%dx%d: %s\n", 
-	    SC_WIDTH, SC_HEIGHT, max_bpp, SDL_GetError());
+	SC_WIDTH, SC_HEIGHT, max_bpp, SDL_GetError());
     quitProgram(1);
   }
-  
+
   /* Enable repeating of keys 890510*/
   if (SDL_EnableKeyRepeat(100, 80))
   {
@@ -344,9 +183,7 @@ int main(int argc, char **argv)
     quitProgram(1);
   }
 
-  /* Initialize OpenGL */
-  initGL();
-
+  init();
   buildLists();
 
   /* Request initial window resize */
@@ -355,10 +192,8 @@ int main(int argc, char **argv)
   /* Infinite loop which polls for events and draws the scene */
   while(1)
   {
-    SDL_WarpMouse(SC_WIDTH / 2, SC_HEIGHT / 2);
     eventPoll();
-    if (isActive)
-      drawScene();
+    doStateMachine();
   }
 
 

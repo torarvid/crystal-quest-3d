@@ -3,6 +3,8 @@
  * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
+ * $Id: init.h,v 1.1 2003/02/22 19:48:57 totto Exp $
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -39,9 +41,41 @@
 \*****************************************************************************/ 
 
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <SDL/SDL.h>
-#include "Model3ds.h"
+#include "globals.h"
+#include "bitmap.h"
+#include <sys/stat.h>
+#include <sys/types.h>
+
+/*---------------------------------------------------------------------------*/ 
+
+int triangle;
+int quad;
+bool unpacked;
+Uint32 next_time;
+int lives = 10;
+int state = STATE_LOADING;
+bool gameStarted = false;
+int prevState = 0;
+GLuint tex;
+FILE *theFiles;
+char *Sounds[] = {
+  "sounds/motor.wav",
+  "sounds/boom.wav",
+  "sounds/crystal.wav",
+  "sounds/fanfare.wav"
+};
+hiscore scores[10];
+char *homePath;
+char hsFName[256];
+FILE *hiScores;
+#ifdef SOUND_ENABLED
+Mix_Chunk *Wav[NUM_SOUNDS];
+Mix_Music *music;
+#endif
+
+/*---------------------------------------------------------------------------*/
 
 void initGL();
+int initAudio();
+void buildLists();
+void init();

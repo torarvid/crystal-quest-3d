@@ -3,6 +3,8 @@
  * Crystal Quest 3D
  * Copyright (C) 2002 Tor Arvid Lund
  *
+ * $Id: draw.h,v 1.1 2003/02/22 19:48:57 totto Exp $
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -39,29 +41,18 @@
 \*****************************************************************************/ 
 
 
-#include <SDL/SDL.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include "globals.h"
-#include <math.h>
 #include "Model3ds.h"
+#include "particle.h"
 
+/*---------------------------------------------------------------------------*/
 
-extern GLfloat ex, ey, ez, rx, ry, rz, ux, uy, uz;
-extern float upDownAngle;
-extern float viewAngle;
-extern float rotAngle;
-extern int triangle, quad;
-extern float xTrans, yTrans, zTrans;
-extern float viewMatrix[3][3];
-extern CModel3ds *ourShip;
-extern CModel3ds *theLevel;
-extern posf *camBase;
-extern posf *camRead;
-extern posf *camWrt;
-extern bool startCam;
-extern bool printTempMatrix;
+unsigned char minutes, seconds;
+Uint32 dsec;
+Uint32 startTime;
 
-extern float radToDeg(float rad);
-extern void quitProgram(int returnValue);
+/*---------------------------------------------------------------------------*/
+
 void drawScene();
+void drawMenu();
+Uint32 time_left(void);
