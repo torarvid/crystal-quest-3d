@@ -1,7 +1,7 @@
 #This is the makefile for Crystal Quest 3D
 
-CC = g++-2.95
-CPPC = g++-2.95
+CC = g++
+CPPC = g++
 target = ../cq3d
 depends = 	pak_util.o \
 		Vector.o \
@@ -13,13 +13,15 @@ depends = 	pak_util.o \
 		draw.o \
 		particle.o \
 		collision.o \
-		main.o
+		main.o \
+		SDLMain.o
 
-CFLAGS = -Wall `sdl-config --cflags`
+INCLUDE = -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers -I/Library/Frameworks/SDL_mixer.framework/Headers
+CFLAGS = -Wall
 CFLAGS_DEBUG = -g
 CFLAGS_RELEASE = -O3 -ffast-math
 #LIBS = -lpthread -lnet -lpcap
-LIBS = -lpthread -lGL -lGLU `sdl-config --libs` -lSDL_mixer
+LIBS = -lpthread -framework SDL -framework SDL_mixer -framework Cocoa -framework OpenGL
 
 $(target):$(depends)
 	@echo
@@ -36,12 +38,15 @@ opt:$(depends)
 	@echo Making optimized target: $(target)
 	$(CPPC) -o $(target) $(depends) $(CFLAGS) $(CFLAGS_RELEASE) $(LIBS)
 
+.m.o:
+	$(CC) $(CFLAGS) $(INCLUDE) -c $<
+
 .cpp.o:
-	$(CPPC) $(CFLAGS) -c $<
+	$(CPPC) $(CFLAGS) $(INCLUDE) -c $<
 #	$(CPPC) $(CFLAGS) -g -c $<
 
 .c.o:
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) $(INCLUDE) -c $<
 #	$(CC) $(CFLAGS) -g -c $<
 
 clean:

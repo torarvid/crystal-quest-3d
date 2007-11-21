@@ -90,8 +90,8 @@
 #endif
 
 #include "SDL.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <gl.h>
+#include <glu.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
