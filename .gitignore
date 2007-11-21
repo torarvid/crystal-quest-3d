@@ -1,3 +1,8 @@
 *.o
 .log_cq3d
 cq3d
+rapport.aux
+rapport.dvi
+rapport.toc
+rapport.pdf
+rapport.log
