@@ -86,7 +86,8 @@ void drawMenu()
   switch(state)
   {
     case(STATE_LOADING):
-      loadIndex = ++loadIndex % 4;
+      ++loadIndex;
+      loadIndex %= 4;
       glColor3f(1.0f, 0.0f, 0.0f);
       glPrLine(PRINT_CENTER, false, 3, false, 1, 
 	  "Loading... %c", load[loadIndex]);
@@ -224,8 +225,8 @@ void drawScene()
 	} 
 	else if(letterIndex >= 27 && letterIndex < 30)
 	{
-	  int index = strlen(playerName);
-	  index = index ? --index : 0;
+	  int index = strlen(playerName) - 1;
+	  index = (index > 0) ? index : 0;
 	  playerName[index] = 0;
 	  numLetters--;
 	}

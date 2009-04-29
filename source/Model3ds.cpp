@@ -734,7 +734,8 @@ void CModel3ds::calcPath(float tilt, float factor, float speed, bool onZAxis)
   m_Pos.z = m_Origin.z + c;
   moveAngle = ((moveAngle+speed)>360.0f) ? 0.0f : moveAngle + speed;
   glRotatef(rotAngle / 100.0f, 0.7f, 0.2f, 1.0f);
-  rotAngle = ++rotAngle % 36000;
+  ++rotAngle;
+  rotAngle %= 36000;
 }
 
 
