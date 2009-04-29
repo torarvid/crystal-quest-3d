@@ -232,7 +232,7 @@ extern void eventPoll();
 extern void init();
 extern void buildLists();
 extern void drawScene();
-extern PAK_file *pak_fopen(char *fname, FILE *PAK_archive);
+extern PAK_file *pak_fopen(const char *fname, FILE *PAK_archive);
 extern void pak_fclose(PAK_file *stream);
 extern size_t pak_fread(void *ptr, size_t size, size_t nmemb, PAK_file *stream);
 extern int pak_fseek(PAK_file *stream, long offset, int whence);
