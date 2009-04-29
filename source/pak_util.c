@@ -45,7 +45,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-PAK_file *pak_fopen(char *fname, FILE *PAK_archive)
+PAK_file *pak_fopen(const char *fname, FILE *PAK_archive)
 {
   PAK_file *file;
   unsigned long int dirOffset, dirSize;

@@ -75,7 +75,7 @@ class CModel3ds
     void Render();
     int Load();
     CModel3ds();
-    CModel3ds(char* file,unsigned int Texture, ob_type type = WORLD, 
+    CModel3ds(const char* file,unsigned int Texture, ob_type type = WORLD, 
 	float speed = 0.0002f);
     virtual ~CModel3ds();
     Vector3f m_Center; 
@@ -111,7 +111,7 @@ class CModel3ds
     Chunk *m_CurrentChunk;
     Chunk *m_TempChunk;
     int displayList;
-    char* m_strFileName;
+    const char* m_strFileName;
 
   private:
     void MainChunks(Chunk* current);

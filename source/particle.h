@@ -36,7 +36,7 @@ class CParticleSystem
     GLuint m_texture		;	
     Vector3f m_location		;	// The particle-systems orientation
     Vector3f m_direction	;	// The particle-systems direction
-    char* m_strFile			;	// The 
+    const char* m_strFile	;	// The 
   private :
     void update();
     void grow();
@@ -50,7 +50,7 @@ class CParticleSystem
     void Reset();
 
     void Render();
-    CParticleSystem(int nmbr ,Vector3f loc ,char* bmpfile);
+    CParticleSystem(int nmbr ,Vector3f loc ,const char* bmpfile);
     virtual ~CParticleSystem();
 
 };

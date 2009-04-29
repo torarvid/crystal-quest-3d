@@ -11,7 +11,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CParticleSystem::CParticleSystem(int nmbr ,Vector3f loc ,char* bmpfile)
+CParticleSystem::CParticleSystem(int nmbr ,Vector3f loc ,const char* bmpfile)
 {
   m_nParticles = nmbr ;
   m_location.x  =loc.x ;

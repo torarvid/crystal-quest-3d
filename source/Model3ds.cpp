@@ -23,7 +23,7 @@ CModel3ds::CModel3ds()
 
 /*---------------------------------------------------------------------------*/
 
-CModel3ds::CModel3ds(char* file,unsigned int Texture, 
+CModel3ds::CModel3ds(const char* file,unsigned int Texture, 
     ob_type otype, float speed)
 {
   m_strFileName = file ;

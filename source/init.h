@@ -58,7 +58,7 @@ bool gameStarted = false;
 int prevState = 0;
 GLuint tex;
 FILE *theFiles;
-char *Sounds[] = {
+const char *Sounds[] = {
   "sounds/motor.wav",
   "sounds/boom.wav",
   "sounds/crystal.wav",

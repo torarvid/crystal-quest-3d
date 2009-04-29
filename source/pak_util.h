@@ -69,7 +69,7 @@ typedef struct{
  * files */
 
 /* This function returns a pointer toa file within a PAK archive */
-PAK_file *pak_fopen(char *fname, FILE *PAK_archive);
+PAK_file *pak_fopen(const char *fname, FILE *PAK_archive);
 
 /* This function frees the pointer to the PAK_file stream */
 void pak_fclose(PAK_file *stream);

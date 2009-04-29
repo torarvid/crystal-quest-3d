@@ -207,7 +207,7 @@ void buildLists()
 
 /*---------------------------------------------------------------------------*/
 
-void writeFile(char *fName)
+void writeFile(const char *fName)
 {
   char *contents;
   PAK_file *curFile;
