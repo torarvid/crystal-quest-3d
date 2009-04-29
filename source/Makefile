@@ -1,6 +1,6 @@
 #This is the makefile for Crystal Quest 3D
 
-CC = g++
+CC = gcc
 CPPC = g++
 target = ../cq3d
 depends = pak_util.o \

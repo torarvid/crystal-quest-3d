@@ -40,6 +40,9 @@
  *
 \*****************************************************************************/
 
+#ifdef __cplusplus
+  extern "C" {
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -82,3 +85,7 @@ int pak_fseek(PAK_file *stream, long offset, int whence);
 
 /* This function returns the file position indicator */
 long pak_ftell(PAK_file *stream);
+
+#ifdef __cplusplus
+  }
+#endif
