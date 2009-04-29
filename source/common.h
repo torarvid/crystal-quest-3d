@@ -65,8 +65,8 @@ GLuint fontTexture;
 /*---------------------------------------------------------------------------*/
 
 int LoadGLTextures();
-GLvoid KillFont(GLvoid);
-GLvoid BuildFont(GLvoid);
+GLvoid KillFont(void);
+GLvoid BuildFont(void);
 GLvoid glPrint(GLint x, GLint y, int set, const char *fmt, ...);
 void loadStuff();
 float degToRad(float deg);

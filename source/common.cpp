@@ -188,7 +188,7 @@ int LoadGLTextures()
 /*---------------------------------------------------------------------------*/
 
 /* function to recover memory form our list of characters */
-GLvoid KillFont(GLvoid)
+GLvoid KillFont(void)
 {
   glDeleteLists(base, 96);
 
@@ -199,7 +199,7 @@ GLvoid KillFont(GLvoid)
 /*---------------------------------------------------------------------------*/
 
 /* function to build our font list */
-GLvoid BuildFont(GLvoid)
+GLvoid BuildFont(void)
 {
   float cx;    /* Holds Our X Character Coord */
   float cy;    /* Holds Our Y Character Coord */
