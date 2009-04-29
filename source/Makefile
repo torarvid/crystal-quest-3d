@@ -3,25 +3,40 @@
 CC = g++
 CPPC = g++
 target = ../cq3d
-depends = 	pak_util.o \
-		Vector.o \
-		bitmap.o \
-		common.o \
-		Model3ds.o \
-		init.o \
-		event.o \
-		draw.o \
-		particle.o \
-		collision.o \
-		main.o \
-		SDLMain.o
+depends = pak_util.o \
+          Vector.o \
+          bitmap.o \
+          common.o \
+          Model3ds.o \
+          init.o \
+          event.o \
+          draw.o \
+          particle.o \
+          collision.o \
+          main.o
 
-INCLUDE = -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers -I/Library/Frameworks/SDL_mixer.framework/Headers
+LIBS = -lpthread
+
+uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+
+ifeq ($(uname_S),Linux)
+    SDLINCLUDE = /usr/include/SDL
+    SDLMIXINCLUDE = $(SDLINCLUDE)
+    OPENGLINCLUDE = /usr/include/GL
+    LIBS += -lSDL -lGL -lGLU -lSDL_mixer
+endif
+ifeq ($(uname_S),Darwin)
+    SDLINCLUDE = /Library/Frameworks/SDL.framework/Headers
+    SDLMIXINCLUDE = /Library/Frameworks/SDL_mixer.framework/Headers
+    OPENGLINCLUDE = /System/Library/Frameworks/OpenGL.framework/Headers
+    LIBS += -framework SDL -framework SDL_mixer -framework Cocoa -framework OpenGL
+    depends += SDLMain.o
+endif
+
+INCLUDE = -I$(SDLINCLUDE) -I$(SDLMIXINCLUDE) -I$(OPENGLINCLUDE)
 CFLAGS = -Wall
 CFLAGS_DEBUG = -g
 CFLAGS_RELEASE = -O3 -ffast-math
-#LIBS = -lpthread -lnet -lpcap
-LIBS = -lpthread -framework SDL -framework SDL_mixer -framework Cocoa -framework OpenGL
 
 $(target):$(depends)
 	@echo
