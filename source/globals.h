@@ -89,6 +89,16 @@
 #include "SDL_mixer.h"
 #endif
 
+#ifdef __MINGW32__
+#include <io.h>
+static inline int
+rpl_mkdir (char const *name, mode_t mode)
+{
+  return _mkdir (name);
+}
+#define mkdir rpl_mkdir
+#endif
+
 #include "SDL.h"
 #include <gl.h>
 #include <glu.h>
