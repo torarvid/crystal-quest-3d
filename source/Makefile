@@ -35,13 +35,24 @@ ifeq ($(uname_S),Darwin)
     LIBS += -framework SDL -framework SDL_mixer -framework Cocoa -framework OpenGL
     depends += SDLMain.o
 endif
+ifneq (,$(findstring MINGW,$(uname_S)))
+    SDLINCLUDE = -I/mingw/include/SDL
+    SDLMIXINCLUDE = $(SDLINCLUDE)
+    BASEINCLUDE = -I/mingw/include
+    INCBASE = /c/Program\ Files/Microsoft\ SDKs/Windows/v6.1/Include
+    OPENGLINCLUDE = -I$(INCBASE) -I$(INCBASE)/GL
+    LDINCLUDE = -L/c/usr/lib
+    LIBS += -lSDL -lopengl32 -lglu32 -lSDL_mixer
+    LDFLAGS +=
+    CFLAGS +=
+endif
 
 INCLUDE = $(BASEINCLUDE) $(SDLINCLUDE) $(SDLMIXINCLUDE) $(OPENGLINCLUDE)
 
 $(target):$(depends)
 	@echo
 	@echo Making standard target: $(target)
-	$(CPPC) -o $(target) $(depends) $(CFLAGS) $(LIBS)
+	$(CPPC) -o $(target) $(depends) $(CFLAGS) $(LDFLAGS) $(LDINCLUDE) $(LIBS)
 
 debug:$(depends)
 	@echo
