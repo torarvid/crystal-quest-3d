@@ -45,6 +45,7 @@ ifneq (,$(findstring MINGW,$(uname_S)))
     LIBS += -lSDL -lopengl32 -lglu32 -lSDL_mixer
     LDFLAGS +=
     CFLAGS +=
+    depends += WinMain.o
 endif
 
 INCLUDE = $(BASEINCLUDE) $(SDLINCLUDE) $(SDLMIXINCLUDE) $(OPENGLINCLUDE)

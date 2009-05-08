@@ -188,6 +188,8 @@ Copyright (C) 2002 - Tor Arvid Lund\n");
 
   /* Request initial window resize */
   resizeWindow(SC_WIDTH, SC_HEIGHT);
+  
+  fprintf(logfile, "Window set up\n");
 
   /* Infinite loop which polls for events and draws the scene */
   while(1)
