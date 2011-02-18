@@ -6,3 +6,11 @@ rapport.dvi
 rapport.toc
 rapport.pdf
 rapport.log
+SDL.dll
+SDL_mixer.dll
+libogg-0.dll
+libvorbis-0.dll
+libvorbisfile-3.dll
+mikmod.dll
+rapport/rapport.synctex.gz
+smpeg.dll
