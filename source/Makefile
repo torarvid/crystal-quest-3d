@@ -36,11 +36,10 @@ ifeq ($(uname_S),Darwin)
     depends += SDLMain.o
 endif
 ifneq (,$(findstring MINGW,$(uname_S)))
-    SDLINCLUDE = -I/mingw/include/SDL
-    SDLMIXINCLUDE = $(SDLINCLUDE)
+    SDLMIXINCLUDE =
     BASEINCLUDE = -I/mingw/include
-    INCBASE = /c/Program\ Files/Microsoft\ SDKs/Windows/v6.1/Include
-    OPENGLINCLUDE = -I$(INCBASE) -I$(INCBASE)/GL
+    SDLINCLUDE = $(BASEINCLUDE)/SDL
+    OPENGLINCLUDE = $(BASEINCLUDE)/GL
     LDINCLUDE = -L/c/usr/lib
     LIBS += -lSDL -lopengl32 -lglu32 -lSDL_mixer
     LDFLAGS +=
