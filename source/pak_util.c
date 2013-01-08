@@ -48,7 +48,7 @@
 PAK_file *pak_fopen(const char *fname, FILE *PAK_archive)
 {
   PAK_file *file;
-  unsigned long int dirOffset, dirSize;
+  uint32_t dirOffset, dirSize;
   char tmpName[56];
   int i;
   int foundIt = 0;
@@ -98,8 +98,9 @@ void pak_fclose(PAK_file *stream)
 size_t pak_fread(void *ptr, size_t size, size_t nmemb, PAK_file *stream)
 {
   fseek(stream->PAK_archive, stream->filepos, SEEK_SET);
-  stream->filepos += size * nmemb;
-  return fread(ptr, size, nmemb, stream->PAK_archive);
+  int readBytes = fread(ptr, size, nmemb, stream->PAK_archive);
+  stream->filepos += readBytes;
+  return readBytes;
 }
 
 /*---------------------------------------------------------------------------*/

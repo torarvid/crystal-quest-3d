@@ -44,6 +44,7 @@
   extern "C" {
 #endif
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -56,14 +57,14 @@
 
 typedef struct{
   char name[56];
-  unsigned long int offset;
-  unsigned long int size;
+  uint32_t offset;
+  uint32_t size;
 }PAK_DirEntry;
 
 typedef struct{
   FILE *PAK_archive;
-  unsigned long int offset;
-  unsigned long int size;
+  uint32_t offset;
+  uint32_t size;
   long filepos;
 }PAK_file;
 
