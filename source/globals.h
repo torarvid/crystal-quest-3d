@@ -48,8 +48,8 @@
 
 #define SOUND_ENABLED /* Comment out this line to disable sound... */
 
-#define SC_WIDTH 800 
-#define SC_HEIGHT 600
+#define SC_WIDTH 1280 
+#define SC_HEIGHT 800
 #define SC_BPP 32
 
 #define CAM_FRAME_DELAY 40
@@ -77,7 +77,7 @@
 #define STATE_DEAD 64
 #define STATE_FINISHED 128
 
-#define TICK_INTERVAL (1000/FPS)
+#define TICK_INTERVAL (2000/FPS)
 
 /*--- Global Includes -------------------------------------------------------*/
 

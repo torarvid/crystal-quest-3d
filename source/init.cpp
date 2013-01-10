@@ -212,7 +212,7 @@ void writeFile(const char *fName)
   char *contents;
   PAK_file *curFile;
   FILE *outFile;
-  
+
   curFile = pak_fopen(fName, theFiles);
   contents = (char *)malloc(curFile->size);
   pak_fread(contents, curFile->size, 1, curFile);
