@@ -66,8 +66,7 @@ void processKeys()
   if (shipWrt == shipBase + CAM_FRAME_DELAY - 1)
     startShip = true;
 
-  shipWrt = ((int)++shipWrt % ((int)(CAM_FRAME_DELAY + shipBase)))
-    ? shipWrt : shipBase;
+  shipWrt = (++shipWrt < (CAM_FRAME_DELAY + shipBase)) ? shipWrt : shipBase;
 
   loadIdentity(shipMatrix);
   if (!startShip)
@@ -96,8 +95,7 @@ void processKeys()
 
   }
   if (startShip)
-    shipRead = ((int)++shipRead % ((int)(CAM_FRAME_DELAY + shipBase)))
-      ? shipRead : shipBase;
+    shipRead = (++shipRead < (CAM_FRAME_DELAY + shipBase)) ? shipRead : shipBase;
 
   /* Reset angles */
   udm = 0.0f;

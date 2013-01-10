@@ -331,8 +331,7 @@ void drawScene()
 
   if (startCam)
   {
-    camRead = ((int)++camRead % ((int)(CAM_FRAME_DELAY + camBase)))
-      ? camRead : camBase;
+    camRead = (++camRead < (CAM_FRAME_DELAY + camBase)) ? camRead : camBase;
   }
 
   /* Draw stuff */
@@ -437,8 +436,7 @@ void drawScene()
   /* Swap the drawing buffers (draw the back buffer to the screen) */
   SDL_GL_SwapBuffers( );
 
-  camWrt = ((int)++camWrt % ((int)(CAM_FRAME_DELAY + camBase))) 
-    ? camWrt : camBase;
+  camWrt = (++camWrt < (CAM_FRAME_DELAY + camBase)) ? camWrt : camBase;
 
   /* Check for collisions */
   /*if (!(frames % 4))*/
