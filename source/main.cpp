@@ -101,7 +101,7 @@ Copyright (C) 2002 - Tor Arvid Lund\n");
   camRead = camBase;
   camWrt = camBase;
 
-  shipBase = (vec3f *)malloc(CAM_FRAME_DELAY * sizeof(posf));
+  shipBase = (vec3f *)malloc(CAM_FRAME_DELAY * sizeof(vec3f));
   if (shipBase == NULL)
   {
     fprintf(stderr, "Cannot allocate memory. Quitting...\n");
