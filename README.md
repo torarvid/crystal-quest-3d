@@ -7,7 +7,7 @@ It is a simple game. The objective is to fly a plane through a 3D world and coll
 is little friction in the game, so steering the plane is meant to be somewhat challenging.
 
 Practical info
-==============
+--------------
 
 The game was originally written on Linux. Dependencies are OpenGL, SDL and SDL-mixer (for sound). In later commits,
 I've tried to make it run on Windows and Mac OS X. It works most of the time, but there are also a heisenbug,
