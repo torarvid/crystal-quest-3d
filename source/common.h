@@ -78,5 +78,6 @@ void loadIdentity(float Matrix[3][3]);
 void usage();
 void doStateMachine();
 void stateChange(int newstate);
+void logString(const char *str, ...);
 
 #endif

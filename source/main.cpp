@@ -156,17 +156,17 @@ Copyright (C) 2002 - Tor Arvid Lund\n");
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
   /* Finding the maximum color depth */
-  fprintf(logfile, "Checking video mode: %dx%dx%d... ",
+  logString("Checking video mode: %dx%dx%d... ",
       SC_WIDTH, SC_HEIGHT, SC_BPP);
   max_bpp = SDL_VideoModeOK(SC_WIDTH, SC_HEIGHT, SC_BPP, vidFlags);
-  fprintf(logfile, "OK\n");
+  logString("OK\n");
 
   /* Setting video mode with maximum color depth */
-  fprintf(logfile, "Setting video mode: %dx%dx%d... ", 
+  logString("Setting video mode: %dx%dx%d... ",
       SC_WIDTH, SC_HEIGHT, max_bpp);
   surface = SDL_SetVideoMode(SC_WIDTH, SC_HEIGHT, max_bpp, vidFlags);
   SDL_WM_SetCaption("Crystal Quest 3D", NULL);
-  fprintf(logfile, "OK\n");
+  logString("OK\n");
 
   /* Verify that the creation of a surface went OK */
   if (!surface)

@@ -220,7 +220,7 @@ void writeFile(const char *fName)
   fwrite(contents, curFile->size, 1, outFile);
   fclose(outFile);
   pak_fclose(curFile);
-  fprintf(logfile, "%s successfully unpacked\n", fName);
+  logString("%s successfully unpacked\n", fName);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -259,17 +259,17 @@ void unpak_files()
 void init()
 {
   int i;
-  fprintf(logfile, "Unpacking data files...");
+  logString("Unpacking data files...");
   unpak_files();
-  fprintf(logfile, "OK\n");
+  logString("OK\n");
 
-  fprintf(logfile, "Loading sound...");
+  logString("Loading sound...");
   i = initAudio();
-  fprintf(logfile, "OK\n");
+  logString("OK\n");
 
-  fprintf(logfile, "Initialising OpenGL...");
+  logString("Initialising OpenGL...");
   initGL();
-  fprintf(logfile, "OK\n\n");
+  logString("OK\n\n");
 
   for(i=0;i<256;i++)
     keys[i] = 0;
@@ -281,10 +281,10 @@ void init()
   sprintf(hsFName, "%s/.cq3drc", homePath);
   hiScores = fopen(hsFName, "r");
   if(!hiScores)
-    fprintf(logfile, "Could not open hiScores file %s\n", hsFName);
+    logString("Could not open hiScores file %s\n", hsFName);
   else
   {
-    fprintf(logfile, "hiScores file %s opened\n", hsFName);
+    logString("hiScores file %s opened\n", hsFName);
     for(i=0;i<10;i++)
     {
       fscanf(hiScores, "%s = %d %d %d", scores[i].Name, &scores[i].mins,

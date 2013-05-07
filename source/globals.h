@@ -250,5 +250,6 @@ extern long pak_ftell(PAK_file *stream);
 extern void usage();
 extern void doStateMachine();
 extern void stateChange(int newstate);
+extern void logString(const char *str, ...);
 
 #endif

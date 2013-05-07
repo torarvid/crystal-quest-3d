@@ -111,7 +111,7 @@ void processKeys()
   if (keys[SDLK_i])
   {
     keys[SDLK_i] = false;
-    fprintf(logfile, "Fullscreen toggle pressed\n");
+    logString("Fullscreen toggle pressed\n");
     /*SDL_WM_ToggleFullScreen(surface);*/
   }
   if (keys[SDLK_q])

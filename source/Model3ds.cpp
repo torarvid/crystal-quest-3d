@@ -75,7 +75,7 @@ void CModel3ds::ReadChunk(Chunk *pChunk)
 
 int CModel3ds::Load()
 {
-  fprintf(logfile, "Loading %s... ", m_strFileName);
+  logString("Loading %s... ", m_strFileName);
   m_CurrentChunk = new Chunk ;
   m_TempChunk    = new Chunk;
   // Open the 3DS file
@@ -144,7 +144,7 @@ int CModel3ds::Load()
   glEnd();
   glEndList();
 
-  fprintf(logfile, "OK\n");
+  logString("OK\n");
   return 1;
 }
 

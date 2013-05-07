@@ -41,6 +41,7 @@
 \*****************************************************************************/ 
 
 
+#include <time.h>
 #include "common.h"
 
 /*---------------------------------------------------------------------------*/
@@ -837,7 +838,7 @@ void loadStuff()
   pos.z =0.0f;
 
   explosion  = new CParticleSystem(250,pos,"gfx/particle.bmp");
-  fprintf(logfile, "Explosion created...\n");
+  logString("Explosion created...\n");
   fflush(stdout);
   stateChange(STATE_MENU_MAIN);
 }
@@ -886,7 +887,7 @@ void quitProgram(int returnValue)
   Mix_FadeOutMusic(700);
   if(unpacked)
   {
-    fprintf(logfile, "Quitting\n");
+    logString("Quitting\n");
     remove("textures/CRYSTAL.BMP");
     remove("textures/FLY.BMP");
     remove("textures/JOHN.BMP");
@@ -1029,3 +1030,20 @@ void loadIdentity(float Matrix[3][3])
 
 
 /*---------------------------------------------------------------------------*/
+
+void logString(const char *str, ...)
+{
+  struct tm *t;
+  time_t timep = time(NULL);
+  t = localtime(&timep);
+  const size_t BUFSIZE = 512;
+  char time_buf[BUFSIZE];
+  strftime(time_buf, BUFSIZE, "%c", t);
+  va_list marker;
+  fprintf(logfile, "\n%s: ", time_buf);
+
+  va_start(marker, str);
+  vfprintf(logfile, str, marker);
+  va_end(marker);
+  fflush(logfile);
+}
