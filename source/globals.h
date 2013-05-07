@@ -135,7 +135,7 @@ hiscore{
   unsigned int mins;
   unsigned int secs;
   unsigned int dsec;
-  hiscore *next;
+  struct hiscore *next;
 }hiscore;
 
 typedef hiscore *hs;
