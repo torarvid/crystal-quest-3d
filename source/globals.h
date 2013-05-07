@@ -83,6 +83,11 @@
 
 #ifdef WIN32
 #include <windows.h>
+#define READFILE "rb"
+#define WRITEFILE "wb"
+#else
+#define READFILE "r"
+#define WRITEFILE "w"
 #endif
 
 #ifdef SOUND_ENABLED

@@ -216,7 +216,7 @@ void writeFile(const char *fName)
   curFile = pak_fopen(fName, theFiles);
   contents = (char *)malloc(curFile->size);
   pak_fread(contents, curFile->size, 1, curFile);
-  outFile = fopen(fName, "w");
+  outFile = fopen(fName, WRITEFILE);
   fwrite(contents, curFile->size, 1, outFile);
   fclose(outFile);
   pak_fclose(curFile);
@@ -230,7 +230,7 @@ void unpak_files()
   mkdir("textures", 0755);
   mkdir("sounds", 0755);
   mkdir("gfx", 0755);
-  theFiles = fopen("pak0.pak", "r");
+  theFiles = fopen("pak0.pak", READFILE);
   writeFile("textures/CRYSTAL.BMP");
   writeFile("textures/FLY.BMP");
   writeFile("textures/JOHN.BMP");
