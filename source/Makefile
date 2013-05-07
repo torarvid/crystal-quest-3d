@@ -16,9 +16,9 @@ depends = pak_util.o \
           main.o
 
 LIBS = -lpthread
-CFLAGS = -Wall
-CFLAGS_DEBUG = -g
 CFLAGS_RELEASE = -O3 -ffast-math
+CFLAGS = -Wall ${CFLAGS_RELEASE}
+CFLAGS_DEBUG = -g
 
 uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
@@ -40,8 +40,8 @@ ifneq (,$(findstring MINGW,$(uname_S)))
     BASEINCLUDE = -I/mingw/include
     SDLINCLUDE = $(BASEINCLUDE)/SDL
     OPENGLINCLUDE = $(BASEINCLUDE)/GL
-    LDINCLUDE = -L/c/usr/lib
-    LIBS += -lSDL -lopengl32 -lglu32 -lSDL_mixer
+    LDINCLUDE = -L/mingw/lib
+    LIBS += -lmingw32 -lSDLmain -lSDL -lSDL_mixer -lopengl32 -lglu32
     LDFLAGS +=
     CFLAGS +=
     depends += WinMain.o
