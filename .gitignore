@@ -1,6 +1,7 @@
 *.o
 .log_cq3d
 cq3d
+cq3d.exe
 rapport.aux
 rapport.dvi
 rapport.toc
@@ -14,3 +15,6 @@ libvorbisfile-3.dll
 mikmod.dll
 rapport/rapport.synctex.gz
 smpeg.dll
+sounds/
+textures/
+gfx/
