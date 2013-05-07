@@ -884,7 +884,9 @@ void resizeWindow(int width, int height)
 
 void quitProgram(int returnValue)
 {
+#ifdef SOUND_ENABLED
   Mix_FadeOutMusic(700);
+#endif
   if(unpacked)
   {
     logString("Quitting\n");
@@ -929,7 +931,9 @@ void quitProgram(int returnValue)
   
   free(camBase);
   free(shipBase);
+#ifdef SOUND_ENABLED
   while(Mix_FadingMusic() == MIX_FADING_OUT){};
+#endif
   SDL_Quit();
   if(!debug && unpacked)
     fclose(logfile);
