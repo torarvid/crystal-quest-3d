@@ -15,24 +15,22 @@ depends = pak_util.o \
           collision.o \
           main.o
 
-LIBS = -lpthread
+LIBS = -lpthread $(shell sdl-config --libs) -lSDL_mixer
 CFLAGS_RELEASE = -O3 -ffast-math
 CFLAGS = -Wall ${CFLAGS_RELEASE}
 CFLAGS_DEBUG = -g
+SDLINCLUDE := $(shell sdl-config --cflags)
 
 uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
 ifeq ($(uname_S),Linux)
-    SDLINCLUDE = -I/usr/include/SDL
-    SDLMIXINCLUDE = $(SDLINCLUDE)
     OPENGLINCLUDE = -I/usr/include/GL
-    LIBS += -lSDL -lGL -lGLU -lSDL_mixer
+    LIBS += -lGL -lGLU
 endif
 ifeq ($(uname_S),Darwin)
-    SDLINCLUDE = -I/Library/Frameworks/SDL.framework/Headers
-    SDLMIXINCLUDE = -I/Library/Frameworks/SDL_mixer.framework/Headers
+    # CFLAGS += -mmacosx-version-min=10.8
     OPENGLINCLUDE = -I/System/Library/Frameworks/OpenGL.framework/Headers
-    LIBS += -framework SDL -framework SDL_mixer -framework Cocoa -framework OpenGL
+    LIBS += -framework Cocoa -framework OpenGL
     depends += SDLMain.o
 endif
 ifneq (,$(findstring MINGW,$(uname_S)))
@@ -41,28 +39,16 @@ ifneq (,$(findstring MINGW,$(uname_S)))
     SDLINCLUDE = $(BASEINCLUDE)/SDL
     OPENGLINCLUDE = $(BASEINCLUDE)/GL
     LDINCLUDE = -L/mingw/lib
-    LIBS += -lmingw32 -lSDLmain -lSDL -lSDL_mixer -lopengl32 -lglu32
-    LDFLAGS +=
-    CFLAGS +=
+    LIBS += -lopengl32 -lglu32
     depends += WinMain.o
 endif
 
-INCLUDE = $(BASEINCLUDE) $(SDLINCLUDE) $(SDLMIXINCLUDE) $(OPENGLINCLUDE)
+INCLUDE = $(BASEINCLUDE) $(SDLINCLUDE) $(OPENGLINCLUDE)
 
 $(target):$(depends)
 	@echo
 	@echo Making standard target: $(target)
-	$(CPPC) -o $(target) $(depends) $(CFLAGS) $(LDFLAGS) $(LDINCLUDE) $(LIBS)
-
-debug:$(depends)
-	@echo
-	@echo Making debug target: $(target)
-	$(CPPC) -o $(target) $(depends) $(CFLAGS) $(CFLAGS_DEBUG) $(LIBS)
-
-opt:$(depends)
-	@echo
-	@echo Making optimized target: $(target)
-	$(CPPC) -o $(target) $(depends) $(CFLAGS) $(CFLAGS_RELEASE) $(LIBS)
+	$(CPPC) -o $(target) $(depends) $(LDFLAGS) $(LDINCLUDE) $(LIBS)
 
 .m.o:
 	$(CC) $(CFLAGS) $(INCLUDE) -c $<
