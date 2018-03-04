@@ -412,7 +412,7 @@ void loadStuff()
 
   drawMenu();
 
-  realShip = new CModel3ds("model_real/ship.3DS", 0);
+  realShip = new CModel3ds("model_real/ship.3DS", 0, SHIP);
   realShip->m_Scale = shipScale;
   realShip->Load();
 
@@ -822,7 +822,7 @@ void loadStuff()
   john->Load();
   drawMenu();
 
-  collShip = new CModel3ds("model_coll/kship.3DS", 0);
+  collShip = new CModel3ds("model_coll/kship.3DS", 0, SHIP);
   collShip->m_Scale = shipScale;
   collShip->Load();
   drawMenu();
