@@ -13,15 +13,15 @@
 
 CParticleSystem::CParticleSystem(int nmbr ,Vector3f loc ,const char* bmpfile)
 {
-  m_nParticles = nmbr ;
-  m_location.x  =loc.x ;
-  m_location.y  =loc.y ;
-  m_location.z  =loc.z ;
+  m_nParticles = nmbr;
+  m_location.x  =loc.x;
+  m_location.y  =loc.y;
+  m_location.z  =loc.z;
 
-  m_strFile = bmpfile ;
-  m_Frames =0			;
-  InitParticles()		;
-  GenerateTexture()	; 
+  m_strFile = bmpfile;
+  m_Frames =0;
+  InitParticles();
+  GenerateTexture(); 
   m_nActive = 0;
   m_wait = 40;
 }
@@ -32,10 +32,10 @@ CParticleSystem::~CParticleSystem()
 }
 
 void CParticleSystem::GenerateTexture()
-{	
+{        
   // Temporary surface
   SDL_Surface* bitmap = LoadBMP(m_strFile  );
-  glGenTextures(1,&m_texture);	
+  glGenTextures(1,&m_texture);        
   glBindTexture( GL_TEXTURE_2D,m_texture );
   // looks better this way ,but slower though
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 
@@ -79,18 +79,18 @@ void CParticleSystem::Render()
     for(i=m_nActive;i<m_nActive + increment; i++)
     {
       m_pParticles[i].pos.x = m_location.x + 
-	0.005*FRAND*(m_nActive / increment) ;
+        0.005*FRAND*(m_nActive / increment);
       m_pParticles[i].pos.y = m_location.y + 
-	0.005*FRAND*(m_nActive / increment)  ;
+        0.005*FRAND*(m_nActive / increment);
       m_pParticles[i].pos.z = m_location.z + 
-	0.005*FRAND*(m_nActive / increment) ;
+        0.005*FRAND*(m_nActive / increment);
     }
   }
 
-  for(i=0 ; i< m_nActive;i++){
+  for(i=0; i< m_nActive;i++){
     if(m_pParticles[i].size >0){
       glColor3f(m_pParticles[i].red ,m_pParticles[i].green,
-	  m_pParticles[i].blue );
+          m_pParticles[i].blue );
       Vector3f a = AddVector(right, up);
       float c = -m_pParticles[i].size;
       Vector3f d = MultiplyVectorByScalar(a, c);
@@ -141,12 +141,12 @@ void CParticleSystem::Render()
 }
 
 void CParticleSystem::InitParticles()
-{	
+{        
   //srand( (unsigned)time( NULL ) );
 
-  //	Alocate memory for our particles
+  //        Alocate memory for our particles
   m_pParticles = new particle[m_nParticles]; 
-  for(int i=0 ; i<m_nParticles ; i++){
+  for(int i=0; i<m_nParticles; i++){
 
 
     m_pParticles[i].red  =  1.0f-FRAND/10;
@@ -154,13 +154,13 @@ void CParticleSystem::InitParticles()
     m_pParticles[i].blue = 0.05f;
 
     //m_pParticles[i].sizedelta = 0.01f;
-    m_pParticles[i].size = 0.0f ;
-    m_pParticles[i].pos.x = m_location.x + 0.5*FRAND ;
-    m_pParticles[i].pos.y = m_location.y + 0.5*FRAND  ;
-    m_pParticles[i].pos.z = m_location.z + 0.5*FRAND ;
-    m_pParticles[i].dir.x	= float((rand()%2000)-1000.0f)/100000.0f;
-    m_pParticles[i].dir.y	= float((rand()%2000)-1000.0f)/100000.0f;
-    m_pParticles[i].dir.z	= 0.0f; //float((rand()%50)-25.0f)/4000.0f;
+    m_pParticles[i].size = 0.0f;
+    m_pParticles[i].pos.x = m_location.x + 0.5*FRAND;
+    m_pParticles[i].pos.y = m_location.y + 0.5*FRAND;
+    m_pParticles[i].pos.z = m_location.z + 0.5*FRAND;
+    m_pParticles[i].dir.x        = float((rand()%2000)-1000.0f)/100000.0f;
+    m_pParticles[i].dir.y        = float((rand()%2000)-1000.0f)/100000.0f;
+    m_pParticles[i].dir.z        = 0.0f; //float((rand()%50)-25.0f)/4000.0f;
 
 
 
@@ -173,23 +173,23 @@ void CParticleSystem::Reset()
 {
   //srand( (unsigned)time( NULL ) );
   m_Frames = 0;
-  //	Alocate memory for our particles
+  //        Alocate memory for our particles
   m_pParticles = new particle[m_nParticles]; 
   m_nActive = 0;
-  for(int i=0 ; i<m_nParticles ; i++){
+  for(int i=0; i<m_nParticles; i++){
 
 
     m_pParticles[i].red  =  1.0f;
     m_pParticles[i].green = 0.5f+FRAND/2;
     m_pParticles[i].blue = 0.05f;
-    m_pParticles[i].sizedelta = 0.001f ;
-    m_pParticles[i].size = 0.3f ;
-    m_pParticles[i].pos.x = m_location.x + 0.5*FRAND ;
-    m_pParticles[i].pos.y = m_location.y + 0.5*FRAND ;
-    m_pParticles[i].pos.z = m_location.z + 0.5*FRAND ;
-    m_pParticles[i].dir.x	= float((rand()%2000)-1000.0f)/7000.0f;
-    m_pParticles[i].dir.y	= float((rand()%2000)-1000.0f)/7000.0f;
-    m_pParticles[i].dir.z	= float((rand()%2000)-1000.0f)/7000.0f;
+    m_pParticles[i].sizedelta = 0.001f;
+    m_pParticles[i].size = 0.3f;
+    m_pParticles[i].pos.x = m_location.x + 0.5*FRAND;
+    m_pParticles[i].pos.y = m_location.y + 0.5*FRAND;
+    m_pParticles[i].pos.z = m_location.z + 0.5*FRAND;
+    m_pParticles[i].dir.x        = float((rand()%2000)-1000.0f)/7000.0f;
+    m_pParticles[i].dir.y        = float((rand()%2000)-1000.0f)/7000.0f;
+    m_pParticles[i].dir.z        = float((rand()%2000)-1000.0f)/7000.0f;
 
 
   }
@@ -198,12 +198,12 @@ void CParticleSystem::Reset()
 
 void CParticleSystem::update()
 {
-  for( int i=0 ; i<m_nParticles ; i++){
-    m_pParticles[i].size -= m_pParticles[i].sizedelta ;
+  for( int i=0; i<m_nParticles; i++){
+    m_pParticles[i].size -= m_pParticles[i].sizedelta;
 
-    m_pParticles[i].pos.x  += m_pParticles[i].dir.x ;
+    m_pParticles[i].pos.x  += m_pParticles[i].dir.x;
     m_pParticles[i].pos.y  += m_pParticles[i].dir.y;
-    m_pParticles[i].pos.z  += m_pParticles[i].dir.z  ;
+    m_pParticles[i].pos.z  += m_pParticles[i].dir.z;
 
   }
 
