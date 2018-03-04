@@ -351,11 +351,9 @@ void drawScene()
   if(!crash)
   {
     if (drawReal) {
-      printf("d1 %d\n", realShip->type);
       realShip->Render();
     }      
     else {
-      printf("d2\n");
       collShip->Render();
     }      
   }
