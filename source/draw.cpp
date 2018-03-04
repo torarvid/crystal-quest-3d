@@ -90,62 +90,62 @@ void drawMenu()
       loadIndex %= 4;
       glColor3f(1.0f, 0.0f, 0.0f);
       glPrLine(PRINT_CENTER, false, 3, false, 1, 
-	  "Loading... %c", load[loadIndex]);
+          "Loading... %c", load[loadIndex]);
       glColor3f(1.0f, 1.0f, 1.0f);
       break;
     case(STATE_MENU_MAIN):
       glColor3f(1.0f, 1.0f, 0.0f);
       glPrLine(PRINT_CENTER, false, 3, false, 1, "Crystal Quest 3D");
       if((mouseY < (SC_HEIGHT - 7 * 30)) && 
-	 (mouseY > (SC_HEIGHT - 8 * 30)) &&
-	 (mouseX > (int)((SC_WIDTH - 198) / 2)) && 
-	 (mouseX < (int)((SC_WIDTH + 198) / 2)))
+         (mouseY > (SC_HEIGHT - 8 * 30)) &&
+         (mouseX > (int)((SC_WIDTH - 198) / 2)) && 
+         (mouseX < (int)((SC_WIDTH + 198) / 2)))
       {
-	glColor3f(0.0f, 0.0f, 1.0f);
-	if(buttons[SDL_BUTTON_LEFT])
-	{
-	  stateChange(STATE_PLAYING);
-	}
+        glColor3f(0.0f, 0.0f, 1.0f);
+        if(buttons[SDL_BUTTON_LEFT])
+        {
+          stateChange(STATE_PLAYING);
+        }
       }
       else
-	glColor3f(1.0f, 1.0f, 0.0f);
+        glColor3f(1.0f, 1.0f, 0.0f);
       if(gameStarted)
-	glPrLine(PRINT_CENTER, false, 8, true, 0, "Resume Game");
+        glPrLine(PRINT_CENTER, false, 8, true, 0, "Resume Game");
       else
-	glPrLine(PRINT_CENTER, false, 8, true, 0, "Start Game!");
+        glPrLine(PRINT_CENTER, false, 8, true, 0, "Start Game!");
       if((mouseY < (SC_HEIGHT - 5 * 30)) && 
-	 (mouseY > (SC_HEIGHT - 6 * 30)) &&
-	 (mouseX > (int)((SC_WIDTH - 198) / 2)) && 
-	 (mouseX < (int)((SC_WIDTH + 198) / 2)))
+         (mouseY > (SC_HEIGHT - 6 * 30)) &&
+         (mouseX > (int)((SC_WIDTH - 198) / 2)) && 
+         (mouseX < (int)((SC_WIDTH + 198) / 2)))
       {
-	glColor3f(0.0f, 0.0f, 1.0f);
-	if(buttons[SDL_BUTTON_LEFT])
-	{
-	  stateChange(STATE_MENU_SCORES);
-	}
+        glColor3f(0.0f, 0.0f, 1.0f);
+        if(buttons[SDL_BUTTON_LEFT])
+        {
+          stateChange(STATE_MENU_SCORES);
+        }
       }
       else
-	glColor3f(1.0f, 1.0f, 0.0f);
+        glColor3f(1.0f, 1.0f, 0.0f);
       glPrLine(PRINT_CENTER, false, 6, true, 0, "High Scores");
       if((mouseY < (SC_HEIGHT - 3 * 30)) && 
-	 (mouseY > (SC_HEIGHT - 4 * 30)) &&
-	 (mouseX > (int)((SC_WIDTH - 126) / 2)) && 
-	 (mouseX < (int)((SC_WIDTH + 126) / 2)))
-	glColor3f(0.0f, 0.0f, 1.0f);
+         (mouseY > (SC_HEIGHT - 4 * 30)) &&
+         (mouseX > (int)((SC_WIDTH - 126) / 2)) && 
+         (mouseX < (int)((SC_WIDTH + 126) / 2)))
+        glColor3f(0.0f, 0.0f, 1.0f);
       else
-	glColor3f(1.0f, 1.0f, 0.0f);
+        glColor3f(1.0f, 1.0f, 0.0f);
       glPrLine(PRINT_CENTER, false, 4, true, 0, "Options");
       if((mouseY < (SC_HEIGHT -  1 * 30)) && 
-	 (mouseY > (SC_HEIGHT -  2 * 30)) &&
-	 (mouseX > (int)((SC_WIDTH - 72) / 2)) && 
-	 (mouseX < (int)((SC_WIDTH + 72) / 2)))
+         (mouseY > (SC_HEIGHT -  2 * 30)) &&
+         (mouseX > (int)((SC_WIDTH - 72) / 2)) && 
+         (mouseX < (int)((SC_WIDTH + 72) / 2)))
       {
-	glColor3f(0.0f, 0.0f, 1.0f);
-	if(buttons[SDL_BUTTON_LEFT])
-	  quitProgram(0);
+        glColor3f(0.0f, 0.0f, 1.0f);
+        if(buttons[SDL_BUTTON_LEFT])
+          quitProgram(0);
       }
       else
-	glColor3f(1.0f, 1.0f, 0.0f);
+        glColor3f(1.0f, 1.0f, 0.0f);
       glPrLine(PRINT_CENTER, false, 2, true, 0, "Quit");
       glColor3f(1.0f, 1.0f, 1.0f);
       break;
@@ -155,17 +155,17 @@ void drawMenu()
       glPrLine(PRINT_CENTER, false, 1, false, 1, "Hall of Fame");
       for(i=0; i<10; i++)
       {
-	unsigned int l = strlen(scores[i].Name);
-	len = (l > len) ? l : len;
+        unsigned int l = strlen(scores[i].Name);
+        len = (l > len) ? l : len;
       }
       for(i=0; i<10; i++)
       {
-	unsigned int l = strlen(scores[i].Name);
-	unsigned int j;
-	for(j=0;j<(len-l);j++)
-	  strcat(scores[i].Name, " ");
-	glPrLine(PRINT_CENTER, false, 6+i, false, 0, "%s - %02d:%02d.%d",
-	    scores[i].Name, scores[i].mins, scores[i].secs, scores[i].dsec);
+        unsigned int l = strlen(scores[i].Name);
+        unsigned int j;
+        for(j=0;j<(len-l);j++)
+          strcat(scores[i].Name, " ");
+        glPrLine(PRINT_CENTER, false, 6+i, false, 0, "%s - %02d:%02d.%d",
+            scores[i].Name, scores[i].mins, scores[i].secs, scores[i].dsec);
       }
       break;
   }
@@ -191,86 +191,84 @@ void drawScene()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     glPrLine(PRINT_CENTER, false, 5, false, 0, 
-	"CONGRATULATIONS!!! You finished the game!");
+        "CONGRATULATIONS!!! You finished the game!");
     for(i=9; i>=0; i--)
     {
       if ((minutes * 600 + seconds * 10 + dsec) <=
-	  (scores[i].mins * 600 + scores[i].secs * 10 + scores[i].dsec))
-	    place = i;
+          (scores[i].mins * 600 + scores[i].secs * 10 + scores[i].dsec))
+        place = i;
       else
-	break;
+        break;
     }
     if (place < 10)
     {
       SDL_ShowCursor(SDL_ENABLE);
-      glPrLine(PRINT_CENTER, false, 7, false, 0,
-	  "Enter your name for the Hall of Fame!");
-      glPrLine(PRINT_CENTER, false, 10, true, 0,
-	  "ABCDEFGHIJKLMNOPQRSTUVWXYZ Del Done");
+      glPrLine(PRINT_CENTER, false, 7, false, 0, "Enter your name for the Hall of Fame!");
+      glPrLine(PRINT_CENTER, false, 10, true, 0, "ABCDEFGHIJKLMNOPQRSTUVWXYZ Del Done");
       if((mouseY < (SC_HEIGHT - 9 * 30)) && 
-	 (mouseY > (SC_HEIGHT - 10 * 30)) &&
-	 buttons[SDL_BUTTON_LEFT])
+         (mouseY > (SC_HEIGHT - 10 * 30)) &&
+          buttons[SDL_BUTTON_LEFT])
       {
-	static int numLetters = 0;
-	int alphaStart = (int)((SC_WIDTH - 630) / 2);
-	int letterIndex = (int)((mouseX - alphaStart) / 18);
-	buttons[SDL_BUTTON_LEFT] = false;
-	if(letterIndex >= 0 && letterIndex < 26)
-	{
-	  if(numLetters < 16)
-	  {
-	    sprintf(playerName, "%s%c", playerName, 'A' + letterIndex);
-	    numLetters++;
-	  }
-	} 
-	else if(letterIndex >= 27 && letterIndex < 30)
-	{
-	  int index = strlen(playerName) - 1;
-	  index = (index > 0) ? index : 0;
-	  playerName[index] = 0;
-	  numLetters--;
-	}
-	else if(letterIndex >= 30)
-	{
-	  for(i=9; i>place; i--)
-	  {
-	    scores[i] = scores[i-1];
-	  }
-	  strcpy(scores[place].Name, playerName);
-	  scores[place].mins = minutes;
-	  scores[place].secs = seconds;
-	  scores[place].dsec = dsec;
-	  gameStarted = false;
-	  finished = false;
-	  lives = 10;
-	  xTrans = yTrans = zTrans = 0.0f;
-	  for(int abc=0;abc<NUM_CRYSTALS;abc++)
-	    realCrystals[abc]->isActive = true;
-	  numCrystals = 0;
-	  SDL_ShowCursor(SDL_DISABLE);
-	  stateChange(STATE_MENU_SCORES);
-	  john->Load();
-	}
+        static int numLetters = 0;
+        int alphaStart = (int)((SC_WIDTH - 630) / 2);
+        int letterIndex = (int)((mouseX - alphaStart) / 18);
+        buttons[SDL_BUTTON_LEFT] = false;
+        if(letterIndex >= 0 && letterIndex < 26)
+        {
+          if(numLetters < 16)
+          {
+            sprintf(playerName, "%s%c", playerName, 'A' + letterIndex);
+            numLetters++;
+          }
+        } 
+        else if(letterIndex >= 27 && letterIndex < 30)
+        {
+          int index = strlen(playerName) - 1;
+          index = (index > 0) ? index : 0;
+          playerName[index] = 0;
+          numLetters--;
+        }
+        else if(letterIndex >= 30)
+        {
+          for(i=9; i>place; i--)
+          {
+            scores[i] = scores[i-1];
+          }
+          strcpy(scores[place].Name, playerName);
+          scores[place].mins = minutes;
+          scores[place].secs = seconds;
+          scores[place].dsec = dsec;
+          gameStarted = false;
+          finished = false;
+          lives = 10;
+          xTrans = yTrans = zTrans = 0.0f;
+          for(int abc=0;abc<NUM_CRYSTALS;abc++)
+            realCrystals[abc]->isActive = true;
+          numCrystals = 0;
+          SDL_ShowCursor(SDL_DISABLE);
+          stateChange(STATE_MENU_SCORES);
+          john->Load();
+        }
       }
       glPrLine(PRINT_CENTER, false, 8, true, 0, "%s", playerName);
     }
     else
     {
       glPrLine(1, false, 1, true, 0, 
-	  "Your time was: %02i:%02i.%i", minutes, seconds, dsec);
+          "Your time was: %02i:%02i.%i", minutes, seconds, dsec);
       if (buttons[SDL_BUTTON_LEFT])
       {
-	buttons[SDL_BUTTON_LEFT] = false;
-	lives = 10;
-	xTrans = yTrans = zTrans = 0.0f;
-	for(int abc=0;abc<NUM_CRYSTALS;abc++)
-	  realCrystals[abc]->isActive = true;
-	numCrystals = 0;
-	gameover = false;
-	gameStarted = false;
-	finished = false;
-	stateChange(STATE_MENU_SCORES);
-	john->Load();
+        buttons[SDL_BUTTON_LEFT] = false;
+        lives = 10;
+        xTrans = yTrans = zTrans = 0.0f;
+        for(int abc=0;abc<NUM_CRYSTALS;abc++)
+          realCrystals[abc]->isActive = true;
+        numCrystals = 0;
+        gameover = false;
+        gameStarted = false;
+        finished = false;
+        stateChange(STATE_MENU_SCORES);
+        john->Load();
       }
     }
     SDL_GL_SwapBuffers();
@@ -320,13 +318,13 @@ void drawScene()
   if (printTempMatrix)
   {
     printf("| %.1f %.1f %.1f %.1f |\n",
-	tempMatrix[0], tempMatrix[4], tempMatrix[8], tempMatrix[12]);
+        tempMatrix[0], tempMatrix[4], tempMatrix[8], tempMatrix[12]);
     printf("| %.1f %.1f %.1f %.1f |\n",
-	tempMatrix[1], tempMatrix[5], tempMatrix[9], tempMatrix[13]);
+        tempMatrix[1], tempMatrix[5], tempMatrix[9], tempMatrix[13]);
     printf("| %.1f %.1f %.1f %.1f |\n",
-	tempMatrix[2], tempMatrix[6], tempMatrix[10], tempMatrix[14]);
+        tempMatrix[2], tempMatrix[6], tempMatrix[10], tempMatrix[14]);
     printf("| %.1f %.1f %.1f %.1f |\n\n",
-	tempMatrix[3], tempMatrix[7], tempMatrix[11], tempMatrix[15]);
+        tempMatrix[3], tempMatrix[7], tempMatrix[11], tempMatrix[15]);
   }
 
   if (startCam)
@@ -352,10 +350,14 @@ void drawScene()
   glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
   if(!crash)
   {
-    if (drawReal)
+    if (drawReal) {
+      printf("d1 %d\n", realShip->type);
       realShip->Render();
-    else
+    }      
+    else {
+      printf("d2\n");
       collShip->Render();
+    }      
   }
   glPopMatrix();
 
@@ -401,7 +403,7 @@ void drawScene()
   {
     explosion->Render();
     glPrLine(PRINT_CENTER, false, 10, false, 0, 
-	"GAME OVER! Press SPACE to start over");
+        "GAME OVER! Press SPACE to start over");
   }
   else if (crash)
   {
