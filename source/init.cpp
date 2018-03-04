@@ -133,13 +133,13 @@ void initGL()
   glEnable(GL_LIGHT0);
 
   SDL_Surface* bitmap = LoadBMP("gfx/loading.bmp");
-  glGenTextures(1,&tex);	
+  glGenTextures(1,&tex);
   glBindTexture( GL_TEXTURE_2D,tex);
   glTexParameteri( GL_TEXTURE_2D, 
       GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
   glTexParameteri( GL_TEXTURE_2D, 
       GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-  gluBuild2DMipmaps(GL_TEXTURE_2D, 3, bitmap->w, bitmap->h, 
+  gluBuild2DMipmaps(GL_TEXTURE_2D, 3, bitmap->w, bitmap->h,
       GL_RGB, GL_UNSIGNED_BYTE, bitmap->pixels);
   if ( bitmap )
     SDL_FreeSurface( bitmap);
@@ -287,8 +287,8 @@ void init()
     logString("hiScores file %s opened\n", hsFName);
     for(i=0;i<10;i++)
     {
-      fscanf(hiScores, "%s = %d %d %d", scores[i].Name, &scores[i].mins,
-	  &scores[i].secs, &scores[i].dsec);
+      fscanf(hiScores, "%s = %d %d %d",
+        scores[i].Name, &scores[i].mins, &scores[i].secs, &scores[i].dsec);
     }
     fclose(hiScores);
   }

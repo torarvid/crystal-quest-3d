@@ -75,8 +75,7 @@ class CModel3ds
     void Render();
     int Load();
     CModel3ds();
-    CModel3ds(const char* file,unsigned int Texture, ob_type type = WORLD, 
-	float speed = 0.0002f);
+    CModel3ds(const char* file, unsigned int Texture, ob_type type = WORLD, float speed = 0.0002f);
     virtual ~CModel3ds();
     Vector3f m_Center; 
     Vector3f m_Pos;
@@ -128,12 +127,7 @@ class CModel3ds
     void GenerateTexture();
     void CalcBoundingSphere();
     void CalcFaceRadii();
-    void calcPath(
-	float tilt = 0.0f,
-	float factor = 10.0f,
-	float speed = 0.02,
-	bool onZAxis = false
-	);
+    void calcPath(float tilt = 0.0f, float factor = 10.0f, float speed = 0.02, bool onZAxis = false);
 };
 
 extern void path1(CModel3ds *model);
