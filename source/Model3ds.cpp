@@ -95,7 +95,7 @@ int CModel3ds::Load()
   if (m_CurrentChunk->ID != PRIMARY)
   {
     fprintf(stderr, "Unable to load PRIMARY chunk from file: %s!",
-	m_strFileName);
+        m_strFileName);
     return 0;
   }
   MainChunks(m_CurrentChunk);
@@ -108,9 +108,9 @@ int CModel3ds::Load()
   CalcBoundingSphere();
   CalcFaceRadii();
 
-  pak_fclose(m_pFile );	// Close the current file pointer
+  pak_fclose(m_pFile );        // Close the current file pointer
   if (m_CurrentChunk != NULL)
-    delete m_CurrentChunk;	// Free the current chunk
+    delete m_CurrentChunk;        // Free the current chunk
   delete m_TempChunk;// Free our temporary chunk
 
   displayList = glGenLists(1);
@@ -131,14 +131,14 @@ int CModel3ds::Load()
       // give it a texture coordinate.
       if(m_bHasTexture ) 
       {
-	glTexCoord2f(m_TextureCoord[index].x, m_TextureCoord[ index ].y);
+        glTexCoord2f(m_TextureCoord[index].x, m_TextureCoord[ index ].y);
       }
       else 
-	// We draw white
-	glColor3ub(255, 255, 255);
+        // We draw white
+        glColor3ub(255, 255, 255);
       // Pass in the current vertex of the object (Corner of current face)
       glVertex3f(m_Vertices[ index ].x, m_Vertices[ index ].y, 
-	  m_Vertices[ index ].z);
+          m_Vertices[ index ].z);
     }
   }
   glEnd();
@@ -158,7 +158,7 @@ void CModel3ds::MainChunks(Chunk *Previous)
   int *buffer = new int[5000];
   memset(buffer, 0, 5000 * sizeof(int));
 
-  m_CurrentChunk = new Chunk;	// Allocate a new chunk
+  m_CurrentChunk = new Chunk;        // Allocate a new chunk
   while (Previous->bytesRead < Previous->length)
   {
     // Read next Chunk
@@ -168,16 +168,16 @@ void CModel3ds::MainChunks(Chunk *Previous)
     {
 
       case OBJECTINFO:
-	ObjectInfo(m_CurrentChunk);
-	break;
+        ObjectInfo(m_CurrentChunk);
+        break;
       case EDITKEYFRAME: 
-	m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
-	    m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
-	break;
+        m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
+            m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
+        break;
       default:
-	m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
-	    m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
-	break;
+        m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
+            m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
+        break;
     }
     // Add the bytes read from the last chunk to the previous chunk passed in.
     Previous->bytesRead += m_CurrentChunk->bytesRead;
@@ -212,9 +212,9 @@ int CModel3ds::GetString(char *Str)
 
 void CModel3ds::ObjectInfo(Chunk *Previous)
 {
-  int *buffer = new int[5000];	// This is used to read past unwanted data
+  int *buffer = new int[5000];        // This is used to read past unwanted data
   memset(buffer, 0, 5000 * sizeof(int));
-  m_CurrentChunk = new Chunk;	// Allocate a new chunk
+  m_CurrentChunk = new Chunk;        // Allocate a new chunk
 
   // Below we check our chunk ID each time we read a new chunk.  Then, if
   // we want to extract the information from that chunk, we do so.
@@ -224,25 +224,25 @@ void CModel3ds::ObjectInfo(Chunk *Previous)
   // check against the length.
 
   while (Previous->bytesRead < Previous->length)
-  {	
+  {        
     // Read next Chunk
     ReadChunk(m_CurrentChunk);
     // Check the chunk ID
-    switch (m_CurrentChunk->ID){	
-      case MATERIAL:	// This holds the material information
-	// The only thing we care about is the textures filename
-	Material(m_CurrentChunk);
-	break;
+    switch (m_CurrentChunk->ID){        
+      case MATERIAL:        // This holds the material information
+        // The only thing we care about is the textures filename
+        Material(m_CurrentChunk);
+        break;
       case OBJECT:
-	// Read the object-Name
-	m_CurrentChunk->bytesRead += GetString(m_strName);
-	// Read objectinfo
-	Object(m_CurrentChunk);
-	break;
+        // Read the object-Name
+        m_CurrentChunk->bytesRead += GetString(m_strName);
+        // Read objectinfo
+        Object(m_CurrentChunk);
+        break;
       default:
-	m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
-	    m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
-	break;
+        m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
+            m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
+        break;
     }
     Previous->bytesRead += m_CurrentChunk->bytesRead;
   }
@@ -257,9 +257,9 @@ void CModel3ds::ObjectInfo(Chunk *Previous)
 
 void CModel3ds::Object(Chunk *Previous)
 {
-  int *buffer = new int[5000];	// This is used to read past unwanted data
+  int *buffer = new int[5000];        // This is used to read past unwanted data
   memset(buffer, 0, 5000 * sizeof(int));
-  m_CurrentChunk = new Chunk;	// Allocate a new chunk
+  m_CurrentChunk = new Chunk;        // Allocate a new chunk
 
   // Below we check our chunk ID each time we read a new chunk.  Then, if
   // we want to extract the information from that chunk, we do so.
@@ -269,18 +269,18 @@ void CModel3ds::Object(Chunk *Previous)
   // check against the length.
 
   while (Previous->bytesRead < Previous->length)
-  {	
+  {        
     // Read next Chunk
     ReadChunk(m_CurrentChunk);
     // Check the chunk ID
     switch (m_CurrentChunk->ID){
       case OBJECT_MESH:
-	ObjectMesh(m_CurrentChunk);
-	break;
+        ObjectMesh(m_CurrentChunk);
+        break;
       default:
-	m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
-	    m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
-	break;
+        m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
+            m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
+        break;
     }
     Previous->bytesRead += m_CurrentChunk->bytesRead;
   }
@@ -296,7 +296,7 @@ void CModel3ds::Object(Chunk *Previous)
 void CModel3ds::ObjectMesh(Chunk *Previous)
 {
 
-  int *buffer = new int[5000];	// This is used to read past unwanted data
+  int *buffer = new int[5000];        // This is used to read past unwanted data
   memset(buffer, 0, 5000 * sizeof(int));
   m_CurrentChunk = new Chunk;// Allocate a new chunk
 
@@ -309,24 +309,24 @@ void CModel3ds::ObjectMesh(Chunk *Previous)
   // check against the length.
 
   while (Previous->bytesRead < Previous->length)
-  {	
+  {        
     // Read next Chunk
     ReadChunk(m_CurrentChunk);
     // Check the chunk ID
     switch (m_CurrentChunk->ID){
       case OBJECT_VERTICES:
-	ReadVertices(m_CurrentChunk); 
-	break;
+        ReadVertices(m_CurrentChunk); 
+        break;
       case OBJECT_FACES:
-	ReadVertexIndices(m_CurrentChunk); 
-	break;
+        ReadVertexIndices(m_CurrentChunk); 
+        break;
       case OBJECT_UV:
-	ReadTextureVertices(m_CurrentChunk); 
-	break;
+        ReadTextureVertices(m_CurrentChunk); 
+        break;
       default:
-	m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
-	    m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
-	break;
+        m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
+            m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
+        break;
     }
     Previous->bytesRead += m_CurrentChunk->bytesRead;
   }
@@ -405,8 +405,8 @@ void CModel3ds::ReadVertexIndices(Chunk* Previous)
       // Read the first vertice index for the current face 
       Previous->bytesRead += pak_fread(&index, 1, sizeof(index), m_pFile);
       if(j < 3){
-	// Store the index in our face structure.
-	m_Faces[i].vertIndex[j] = index;
+        // Store the index in our face structure.
+        m_Faces[i].vertIndex[j] = index;
       }
     }
   }
@@ -418,7 +418,7 @@ void CModel3ds::ReadVertexIndices(Chunk* Previous)
 void CModel3ds::Material(Chunk *Previous)
 {
   char tempTex[255];
-  int *buffer = new int[5000];	// This is used to read past unwanted data
+  int *buffer = new int[5000];        // This is used to read past unwanted data
   memset(buffer, 0, 5000 * sizeof(int));
   // Allocate a new chunk to work with
   m_CurrentChunk = new Chunk;
@@ -430,23 +430,23 @@ void CModel3ds::Material(Chunk *Previous)
     // Check which chunk we just read in
     switch (m_CurrentChunk->ID)
     {
-      case MATMAP:	// This is the header for the texture info
-	// Proceed to read in the material information
-	break;
+      case MATMAP:        // This is the header for the texture info
+        // Proceed to read in the material information
+        break;
       case MATMAPFILE:// This stores the file name of the material
-	// Here we read in the material's file name
+        // Here we read in the material's file name
 
-	m_CurrentChunk->bytesRead += pak_fread(m_strTextureFile, 1, 
-	    m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
-	sprintf(tempTex, "textures/%s", m_strTextureFile);
-	sprintf(m_strTextureFile, "%s", tempTex);
-	m_bHasTexture =1 ;
-	break;
+        m_CurrentChunk->bytesRead += pak_fread(m_strTextureFile, 1, 
+            m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
+        sprintf(tempTex, "textures/%s", m_strTextureFile);
+        sprintf(m_strTextureFile, "%s", tempTex);
+        m_bHasTexture =1 ;
+        break;
       default:  
-	// Read past the ignored or unknown chunks
-	m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
-	    m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
-	break;
+        // Read past the ignored or unknown chunks
+        m_CurrentChunk->bytesRead += pak_fread(buffer, 1, 
+            m_CurrentChunk->length - m_CurrentChunk->bytesRead, m_pFile);
+        break;
     }
     // Add the bytes read from the last chunk to the previous chunk passed in.
     Previous->bytesRead += m_CurrentChunk->bytesRead;
@@ -493,7 +493,7 @@ void CModel3ds::Render()
       collRef->calcPath(stoneTilt, stoneFactor, stoneSpeed, stoneOnZAxis);
   }
   glScalef(m_Scale, m_Scale, m_Scale);
-  glCallList(displayList);	
+  glCallList(displayList);        
   glPopMatrix();
 }
 
@@ -519,8 +519,8 @@ void CModel3ds::CalculateNormals()
   */
 
   Vector3f *pNormals= new Vector3f[m_nFaces];
-  Vector3f *pTempNormals	= new Vector3f[m_nFaces];
-  m_Normals	= new Vector3f[m_nVertices];
+  Vector3f *pTempNormals        = new Vector3f[m_nFaces];
+  m_Normals        = new Vector3f[m_nVertices];
 
   // Go though all of the faces of this object
   for(unsigned int i=0; i < m_nFaces; i++)
@@ -543,7 +543,7 @@ void CModel3ds::CalculateNormals()
     vNormal  = Cross(vVector1, vVector2);
 
     // Save the un-normalized normal for the vertex normals
-    pTempNormals[i] = vNormal;	
+    pTempNormals[i] = vNormal;        
 
     // Normalize the cross product to give us the polygons normal
     vNormal  = Normalize(vNormal);
@@ -558,23 +558,23 @@ void CModel3ds::CalculateNormals()
   for (unsigned int k = 0; k < m_nVertices; k++)
   {
     // Go through all of the triangles
-    for (unsigned int j = 0; j < m_nFaces; j++)	
+    for (unsigned int j = 0; j < m_nFaces; j++)        
     {// Check if the vertex is shared by another face
       if (m_Faces[j].vertIndex[0] == k || 
-	  m_Faces[j].vertIndex[1] == k || 
-	  m_Faces[j].vertIndex[2] == k)
+          m_Faces[j].vertIndex[1] == k || 
+          m_Faces[j].vertIndex[2] == k)
       {
-	// Add the un-normalized normal of the shared face
-	vSum = AddVector(vSum, pTempNormals[j]);
-	shared++;// Increase the number of shared triangles
+        // Add the un-normalized normal of the shared face
+        vSum = AddVector(vSum, pTempNormals[j]);
+        shared++;// Increase the number of shared triangles
       }
     }      
     // Get the normal by dividing the sum by the shared.  
     // We negate the shared so it has the normals pointing out.
     m_Normals[k] = DivideVectorByScaler(vSum, float(-shared));
     // Normalize the normal for the final vertex normal
-    m_Normals[k] = Normalize(m_Normals[k]);	
-    vSum = vZero;	// Reset the sum
+    m_Normals[k] = Normalize(m_Normals[k]);        
+    vSum = vZero;        // Reset the sum
     shared = 0;// Reset the shared
   }
   // Free our memory and start over on the next object
@@ -589,7 +589,7 @@ void CModel3ds::GenerateTexture()
 {
   // Temporary surface
   SDL_Surface* bitmap = LoadBMP(m_strTextureFile );
-  glGenTextures(1,&m_Texture);	
+  glGenTextures(1,&m_Texture);        
   glBindTexture( GL_TEXTURE_2D,m_Texture );
   // looks better this way ,but slower though
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 
@@ -676,17 +676,17 @@ void CModel3ds::CalcFaceRadii()
     for(j=1;j<3;j++)
     {
       minX = (m_Vertices[m_Faces[i].vertIndex[j]].x < minX) ?
-	m_Vertices[m_Faces[i].vertIndex[j]].x : minX;
+        m_Vertices[m_Faces[i].vertIndex[j]].x : minX;
       minY = (m_Vertices[m_Faces[i].vertIndex[j]].y < minY) ?
-	m_Vertices[m_Faces[i].vertIndex[j]].y : minY;
+        m_Vertices[m_Faces[i].vertIndex[j]].y : minY;
       minZ = (m_Vertices[m_Faces[i].vertIndex[j]].z < minZ) ?
-	m_Vertices[m_Faces[i].vertIndex[j]].z : minZ;
+        m_Vertices[m_Faces[i].vertIndex[j]].z : minZ;
       maxX = (m_Vertices[m_Faces[i].vertIndex[j]].x > maxX) ?
-	m_Vertices[m_Faces[i].vertIndex[j]].x : maxX;
+        m_Vertices[m_Faces[i].vertIndex[j]].x : maxX;
       maxY = (m_Vertices[m_Faces[i].vertIndex[j]].y > maxY) ?
-	m_Vertices[m_Faces[i].vertIndex[j]].y : maxY;
+        m_Vertices[m_Faces[i].vertIndex[j]].y : maxY;
       maxZ = (m_Vertices[m_Faces[i].vertIndex[j]].z > maxZ) ?
-	m_Vertices[m_Faces[i].vertIndex[j]].z : maxZ;
+        m_Vertices[m_Faces[i].vertIndex[j]].z : maxZ;
     }
 
     m_Faces[i].center.x = (minX + maxX) / 2.0f;
@@ -696,18 +696,18 @@ void CModel3ds::CalcFaceRadii()
     for(j=0;j<3;j++)
     {
       xDist = (m_Vertices[m_Faces[i].vertIndex[j]].x - m_Faces[i].center.x)
-	* m_Scale;
+        * m_Scale;
       yDist = (m_Vertices[m_Faces[i].vertIndex[j]].y - m_Faces[i].center.y)
-	* m_Scale;
+        * m_Scale;
       zDist = (m_Vertices[m_Faces[i].vertIndex[j]].z - m_Faces[i].center.z)
-	* m_Scale;
+        * m_Scale;
       tempDist = (xDist * xDist + yDist * yDist + zDist * zDist);
       maxDist = (tempDist > maxDist) ? tempDist : maxDist;
     }
 
     m_Faces[i].radius = sqrt(maxDist);
     /*      m_Faces[i].center.y,
-	    m_Faces[i].center.z, m_Faces[i].radius);*/
+            m_Faces[i].center.z, m_Faces[i].radius);*/
   }
 }
 
