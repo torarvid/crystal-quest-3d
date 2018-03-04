@@ -62,7 +62,7 @@
 #define STONE_TYPES 2
 #define MAX_STONES 12
 #define NUM_CRYSTALS 30
-#define	FPS 75
+#define FPS 75
 #define PENALTY 15
 
 #define SIM_SOUNDS 8
@@ -72,7 +72,7 @@
 #define STATE_MENU_MAIN 2
 #define STATE_MENU_SCORES 4
 #define STATE_MENU_OPTIONS 8
-#define	STATE_PLAYING 16
+#define STATE_PLAYING 16
 #define STATE_CRASH 32
 #define STATE_DEAD 64
 #define STATE_FINISHED 128
