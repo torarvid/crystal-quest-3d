@@ -66,14 +66,11 @@ Copyright (C) 2002 - Tor Arvid Lund\n");
       debug = true;
       fprintf(stderr, "Debug mode on\n");
     }
-    else if ((strcmp(argv[i], "-f") == 0) || 
-	(strcmp(argv[i], "--full-screen")) == 0)
+    else if ((strcmp(argv[i], "-f") == 0) || (strcmp(argv[i], "--full-screen")) == 0)
       vidFlags |= SDL_FULLSCREEN;
-    else if ((strcmp(argv[i], "-v") == 0) || 
-	(strcmp(argv[i], "--version")) == 0)
+    else if ((strcmp(argv[i], "-v") == 0) || (strcmp(argv[i], "--version")) == 0)
     {
-      fprintf(stdout, "\nThis is version %d.%d.%d of Crystal Quest 3D\n", 
-	  vMajor, vMinor, vBuild);
+      fprintf(stdout, "\nThis is version %d.%d.%d of Crystal Quest 3D\n", vMajor, vMinor, vBuild);
       exit(0);
     }
     else if ((strcmp(argv[i], "-h") == 0) || (strcmp(argv[i], "--help") == 0))
@@ -172,7 +169,7 @@ Copyright (C) 2002 - Tor Arvid Lund\n");
   if (!surface)
   {
     fprintf(stderr, "Couldn't create surface at resolution %dx%dx%d: %s\n", 
-	SC_WIDTH, SC_HEIGHT, max_bpp, SDL_GetError());
+      SC_WIDTH, SC_HEIGHT, max_bpp, SDL_GetError());
     quitProgram(1);
   }
 
