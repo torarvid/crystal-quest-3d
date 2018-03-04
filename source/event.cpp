@@ -90,7 +90,7 @@ void processKeys()
     if (startShip)
     {
       if(counter++ < 1500)
-	;/*printf("%f %f %f\n", ship->x, ship->y, ship->z);*/
+        ;/*printf("%f %f %f\n", ship->x, ship->y, ship->z);*/
     }
 
   }
@@ -119,11 +119,11 @@ void processKeys()
   if (keys[SDLK_o])
   {
     printf("sx:%g\nsy:%g\nsz:%g\n", 
-	viewMatrix[0][0], viewMatrix[0][1], viewMatrix[0][2]);
+        viewMatrix[0][0], viewMatrix[0][1], viewMatrix[0][2]);
     printf("ux:%g\nuy:%g\nuz:%g\n", 
-	viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);
+        viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2]);
     printf("vx:%g\nvy:%g\nvz:%g\n\n", 
-	viewMatrix[2][0], viewMatrix[2][1], viewMatrix[2][2]);
+        viewMatrix[2][0], viewMatrix[2][1], viewMatrix[2][2]);
   }
   if (keys[SDLK_l])
     printTempMatrix = true;
@@ -150,7 +150,7 @@ void processKeys()
   if (keys[SDLK_p])
   {
     printf("%f %f %f\n", realShip->m_Pos.x, realShip->m_Pos.y,
-	realShip->m_Pos.z);
+        realShip->m_Pos.z);
   }
   if (keys[SDLK_SPACE])
   {
@@ -164,13 +164,13 @@ void processKeys()
       crash = false;
       if (gameover)
       {
-	lives = 10;
-	xTrans = yTrans = zTrans = 0.0f;
-	for(int abc=0;abc<NUM_CRYSTALS;abc++)
-	  realCrystals[abc]->isActive = true;
-	numCrystals = 0;
-	gameover = false;
-	john->Load();
+        lives = 10;
+        xTrans = yTrans = zTrans = 0.0f;
+        for(int abc=0;abc<NUM_CRYSTALS;abc++)
+          realCrystals[abc]->isActive = true;
+        numCrystals = 0;
+        gameover = false;
+        john->Load();
       }
     }
   }
@@ -235,63 +235,63 @@ void eventPoll()
   while(SDL_PollEvent(&event)){
     switch(event.type){
       case SDL_MOUSEBUTTONDOWN:
-	buttons[event.button.button] = true;
-	break;
+        buttons[event.button.button] = true;
+        break;
       case SDL_MOUSEBUTTONUP:
-	buttons[event.button.button] = false;
-	break;
+        buttons[event.button.button] = false;
+        break;
       case SDL_MOUSEMOTION:
-	if (regX && (state == STATE_PLAYING))
-	{
-	  viewAngle -= (SC_WIDTH / 2 - event.motion.x) * cur_time / mouseSense;
-	  ssm -= (SC_WIDTH / 2 - event.motion.x) * cur_time / mouseSense;
-	}
-	if (regY && (state == STATE_PLAYING))
-	{
-	  upDownAngle -= (SC_HEIGHT / 2 - event.motion.y) * cur_time /mouseSense;
-	  udm -= (SC_HEIGHT / 2 - event.motion.y) * cur_time / mouseSense;
-	}
-	mouseX = event.motion.x;
-	mouseY = event.motion.y;
-	break;
+        if (regX && (state == STATE_PLAYING))
+        {
+          viewAngle -= (SC_WIDTH / 2 - event.motion.x) * cur_time / mouseSense;
+          ssm -= (SC_WIDTH / 2 - event.motion.x) * cur_time / mouseSense;
+        }
+        if (regY && (state == STATE_PLAYING))
+        {
+          upDownAngle -= (SC_HEIGHT / 2 - event.motion.y) * cur_time /mouseSense;
+          udm -= (SC_HEIGHT / 2 - event.motion.y) * cur_time / mouseSense;
+        }
+        mouseX = event.motion.x;
+        mouseY = event.motion.y;
+        break;
       case SDL_ACTIVEEVENT: /* Check window focus */
-	if (event.active.gain == 0)
-	  isActive = false;
-	else
-	  isActive = true;
-	break;
+        if (event.active.gain == 0)
+          isActive = false;
+        else
+          isActive = true;
+        break;
       case SDL_VIDEORESIZE: /* Resize the window */
-	/* Set video mode for new resolution */
-	surface = SDL_SetVideoMode(event.resize.w, 
-	    event.resize.h, 
-	    max_bpp, 
-	    vidFlags);
-	/* If mode is not available, quit... */
-	if (!surface){
-	  fprintf(stderr, "Couldn't create surface at resolution %dx%dx%d: %s\n",
-	      event.resize.w, event.resize.h, max_bpp, SDL_GetError());
-	  quitProgram(1);
-	}
-	resizeWindow(event.resize.w, event.resize.h);
-	break;
+        /* Set video mode for new resolution */
+        surface = SDL_SetVideoMode(event.resize.w, 
+            event.resize.h, 
+            max_bpp, 
+            vidFlags);
+        /* If mode is not available, quit... */
+        if (!surface){
+          fprintf(stderr, "Couldn't create surface at resolution %dx%dx%d: %s\n",
+              event.resize.w, event.resize.h, max_bpp, SDL_GetError());
+          quitProgram(1);
+        }
+        resizeWindow(event.resize.w, event.resize.h);
+        break;
       case SDL_KEYDOWN:
-	key = event.key.keysym.sym;
-	keys[key] = true;
-	if ((key == fkey) && (keys[fkey]))
-	  keys[bkey] = false;
-	else if ((key == bkey) && (keys[bkey]))
-	  keys[fkey] = false;
-	else if ((key == lkey) && (keys[lkey]))
-	  keys[rkey] = false;
-	else if ((key == rkey) && (keys[rkey]))
-	  keys[lkey] = false;
-	break;
+        key = event.key.keysym.sym;
+        keys[key] = true;
+        if ((key == fkey) && (keys[fkey]))
+          keys[bkey] = false;
+        else if ((key == bkey) && (keys[bkey]))
+          keys[fkey] = false;
+        else if ((key == lkey) && (keys[lkey]))
+          keys[rkey] = false;
+        else if ((key == rkey) && (keys[rkey]))
+          keys[lkey] = false;
+        break;
       case SDL_KEYUP:
-	keys[event.key.keysym.sym] = false;
-	break;
+        keys[event.key.keysym.sym] = false;
+        break;
       case SDL_QUIT:
-	quitProgram(1);
-	break;
+        quitProgram(1);
+        break;
     }
   }
   processKeys();
