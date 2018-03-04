@@ -35,7 +35,6 @@ class CParticleSystem
     particle* m_pParticles  ;	// Pointer to our particle-array	
     GLuint m_texture		;	
     Vector3f m_location		;	// The particle-systems orientation
-    Vector3f m_direction	;	// The particle-systems direction
     const char* m_strFile	;	// The 
   private :
     void update();
