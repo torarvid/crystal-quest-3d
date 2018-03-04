@@ -447,7 +447,7 @@ void loadStuff()
     drawMenu();
   }
 
-  for(i=5;i<13;i++)
+  for(i=5;i<MAX_STONES;i++)
   {
     realStones[i] = new CModel3ds(realStoneFName[0], 0, STONE_BREAKABLE);
     realStones[i]->m_Scale = stoneScale;
