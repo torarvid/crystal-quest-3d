@@ -118,8 +118,7 @@ int pak_fseek(PAK_file *stream, long offset, int whence)
       stream->filepos += offset;
       break;
     case SEEK_END:
-      fseek(stream->PAK_archive, stream->offset + stream->size + offset,
-	  SEEK_SET);
+      fseek(stream->PAK_archive, stream->offset + stream->size + offset, SEEK_SET);
       stream->filepos = stream->offset + stream->size + offset;
       break;
   }
