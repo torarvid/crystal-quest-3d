@@ -58,7 +58,7 @@ void stateChange(const int newstate)
     case(STATE_MENU_MAIN):
       SDL_ShowCursor(SDL_ENABLE);
       if(gameStarted)
-	tempTime = SDL_GetTicks();
+        tempTime = SDL_GetTicks();
       break;
     case(STATE_MENU_SCORES):
       break;
@@ -66,9 +66,9 @@ void stateChange(const int newstate)
       break;
     case(STATE_PLAYING):
       if(!gameStarted)
-	startTime = SDL_GetTicks();
+        startTime = SDL_GetTicks();
       else
-	startTime += SDL_GetTicks() - tempTime;
+        startTime += SDL_GetTicks() - tempTime;
       gameStarted = true;
       playerName[0] = 0;
       SDL_ShowCursor(SDL_DISABLE);
@@ -96,17 +96,17 @@ void doStateMachine()
       break;
     case(STATE_MENU_MAIN):
       if(isActive)
-	drawMenu();
+        drawMenu();
       break;
     case(STATE_MENU_SCORES):
       if(isActive)
-	drawMenu();
+        drawMenu();
       break;
     case(STATE_MENU_OPTIONS):
       break;
     case(STATE_PLAYING):
       if(isActive)
-	drawScene();
+        drawScene();
       break;
     case(STATE_CRASH):
       break;
@@ -123,25 +123,25 @@ void usage()
 {
   fprintf(stdout, "\
 Usage:\n\
-	cq3d [OPTIONS]\n\
+        cq3d [OPTIONS]\n\
 \n\
 OPTIONS:\n\
-	-f, --full-screen	Start the game in 'full-screen' mode\n\
-	-d, --debug		Print status information to stdout\n\
-				instead of logfile\n\
-	-v, --version		Print version information\n\
-	-h, --help		Print this help message\n\
+        -f, --full-screen        Start the game in 'full-screen' mode\n\
+        -d, --debug                Print status information to stdout\n\
+                                instead of logfile\n\
+        -v, --version                Print version information\n\
+        -h, --help                Print this help message\n\
 \n\
 In-game hotkeys:\n\
-	f	forward\n\
-	d	backward (cheating, really...)\n\
-	s	roll right\n\
-	a	roll left\n\
-	mouse	change viewing direction\n\
+        f        forward\n\
+        d        backward (cheating, really...)\n\
+        s        roll right\n\
+        a        roll left\n\
+        mouse        change viewing direction\n\
 \n\
-	x	show fps\n\
-	r	reload ship model if it starts out garbled... (BUG)\n\
-	ESC	quit\n\
+        x        show fps\n\
+        r        reload ship model if it starts out garbled... (BUG)\n\
+        ESC        quit\n\
 ");
 
   exit(0);
@@ -168,14 +168,12 @@ int LoadGLTextures()
 
     glBindTexture( GL_TEXTURE_2D, fontTexture);
     glTexImage2D( GL_TEXTURE_2D, 0, 3,
-	TextureImage[0]->w,
-	TextureImage[0]->h, 0, GL_RGB,
-	GL_UNSIGNED_BYTE,
-	TextureImage[0]->pixels );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-	GL_LINEAR);
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-	GL_LINEAR);
+      TextureImage[0]->w,
+      TextureImage[0]->h, 0, GL_RGB,
+      GL_UNSIGNED_BYTE,
+      TextureImage[0]->pixels );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     /* Loop through 2 local Textures */
     if ( TextureImage[0] )
@@ -924,7 +922,7 @@ void quitProgram(int returnValue)
     for(i=0; i<10; i++)
     {
       fprintf(hiScores, "%s = %d %d %d\n",
-	  scores[i].Name, scores[i].mins, scores[i].secs, scores[i].dsec);
+        scores[i].Name, scores[i].mins, scores[i].secs, scores[i].dsec);
     }
     fclose(hiScores);
   }
@@ -1012,9 +1010,10 @@ void rotVector(float vector[3], float inMatrix[3][3], float angle)
     Matrix[1][2] * rotMatrix[2][1] + 
     Matrix[2][2] * rotMatrix[2][2];
   for(i=0;i<2;i++)
-    length[i] = sqrt(inMatrix[i][0] * inMatrix[i][0] + 
-	inMatrix[i][1] * inMatrix[i][1] +
-	inMatrix[i][2] * inMatrix[i][2]);
+    length[i] = sqrt(
+      inMatrix[i][0] * inMatrix[i][0] + 
+      inMatrix[i][1] * inMatrix[i][1] +
+      inMatrix[i][2] * inMatrix[i][2]);
   for(i=0;i<2;i++)
     for(j=0;j<2;j++)
       inMatrix[i][j] /= length[i];
