@@ -141,6 +141,15 @@ void initGL()
       GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
   gluBuild2DMipmaps(GL_TEXTURE_2D, 3, bitmap->w, bitmap->h,
       GL_RGB, GL_UNSIGNED_BYTE, bitmap->pixels);
+  //glTexImage2D(GL_TEXTURE_2D, 4, GL_RGB, bitmap->w, bitmap->h, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmap->pixels);
+  //gluBuild2DMipmaps(GL_TEXTURE_2D, 3, bitmap->w, bitmap->h, 
+  //    GL_RGB, GL_UNSIGNED_BYTE, bitmap->pixels);
+  
+  // setup texture storage while specifying the number of texture levels (4 in this case)
+  //glTexStorage2D(GL_TEXTURE_2D, 4, GL_RGB, bitmap->w, bitmap->h);
+  // Put the image in level 0 of the storage (base level)
+  //glTexSubImage2D(GL_TEXTURE_2D,0,0,0,bitmap->w,bitmap->h, GL_RGB, GL_UNSIGNED_BYTE, bitmap->pixels);
+  //glGenerateMipmap(GL_TEXTURE_2D);
   if ( bitmap )
     SDL_FreeSurface( bitmap);
 }

@@ -149,6 +149,28 @@ Copyright (C) 2002 - Tor Arvid Lund\n");
     vidFlags |= SDL_HWACCEL;
   }
 
+  SDL_Rect **modes;
+
+  /* Get available fullscreen/hardware modes */
+  modes=SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
+
+  /* Check is there are any modes available */
+  if(modes == (SDL_Rect **)0){
+    printf("No modes available!\n");
+    exit(-1);
+  }
+
+  /* Check if our resolution is restricted */
+  if(modes == (SDL_Rect **)-1){
+    printf("All resolutions available.\n");
+  }
+  else{
+    /* Print valid modes */
+    printf("Available Modes\n");
+    for(int ii=0;modes[ii];++ii)
+      printf("  %d x %d\n", modes[ii]->w, modes[ii]->h);
+  }
+
   /* Sets up OpenGL double buffering */
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 

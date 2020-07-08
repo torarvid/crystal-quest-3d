@@ -29,7 +29,7 @@ ifeq ($(uname_S),Linux)
 endif
 ifeq ($(uname_S),Darwin)
     # CFLAGS += -mmacosx-version-min=10.8
-    OPENGLINCLUDE = -I/System/Library/Frameworks/OpenGL.framework/Headers
+    OPENGLINCLUDE = -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers
     LIBS += -framework Cocoa -framework OpenGL
     depends += SDLMain.o
 endif

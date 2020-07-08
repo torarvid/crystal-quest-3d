@@ -48,8 +48,8 @@
 
 #define SOUND_ENABLED /* Comment out this line to disable sound... */
 
-#define SC_WIDTH 1280 
-#define SC_HEIGHT 800
+#define SC_WIDTH 1440 
+#define SC_HEIGHT 900
 #define SC_BPP 32
 
 #define CAM_FRAME_DELAY 40
@@ -106,6 +106,7 @@ rpl_mkdir (char const *name, mode_t mode)
 
 #include "SDL.h"
 #include <gl.h>
+//#include <gl3ext.h>
 #include <glu.h>
 #include <stdlib.h>
 #include <stdarg.h>
